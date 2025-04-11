@@ -5,7 +5,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/projects")
+@RequestMapping("/gitminer/projects")
 public class ProjectController {
     @GetMapping
     public String getAll() { // TODO

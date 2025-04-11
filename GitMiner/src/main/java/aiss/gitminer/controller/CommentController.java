@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/comments")
+@RequestMapping("/gitminer/comments")
 public class CommentController {
     @GetMapping
     public ResponseEntity<List<Comment>> getAll() { // TODO
