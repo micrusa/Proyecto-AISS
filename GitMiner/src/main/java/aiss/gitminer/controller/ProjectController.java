@@ -59,7 +59,7 @@ public class ProjectController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<Project> getById(
-            @Parameter(description = "ID of the project to be retrieved") @PathVariable(name = "id") String id
+            @Parameter(description = "ID of the project to be retrieved", required = true) @PathVariable(name = "id") String id
     ) throws ProjectNotFoundException {
         Optional<Project> project = projectRepository.findById(id);
         Project existingProject = project.orElseThrow(ProjectNotFoundException::new);
@@ -82,7 +82,7 @@ public class ProjectController {
     })
     @PostMapping
     public ResponseEntity<Project> create(
-            @Parameter(description = "Project to be created") @RequestBody Project project
+            @Parameter(description = "Project to be created", required = true) @RequestBody Project project
     ) {
         Project createdProject = projectRepository.save(project);
         return ResponseEntity.ok(createdProject);

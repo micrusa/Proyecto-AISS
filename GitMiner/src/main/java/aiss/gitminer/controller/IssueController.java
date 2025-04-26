@@ -46,7 +46,7 @@ public class IssueController {
     )
     @GetMapping("/{id}")
     public ResponseEntity<Issue> getById(
-            @Parameter(description = "ID of the issue to be retrieved") @PathVariable(name = "id") String id
+            @Parameter(description = "ID of the issue to be retrieved", required = true) @PathVariable(name = "id") String id
     ) throws IssueNotFoundException {
         Optional<Issue> issue = issueRepository.findById(id);
         Issue existingIssue = issue.orElseThrow(IssueNotFoundException::new);
@@ -60,7 +60,7 @@ public class IssueController {
     )
     @GetMapping("/{id}/comments")
     public ResponseEntity<List<Comment>> getComments(
-            @Parameter(description = "ID of the issue to retrieve comments from") @PathVariable(name = "id") String id
+            @Parameter(description = "ID of the issue to retrieve comments from", required = true) @PathVariable(name = "id") String id
     ) throws IssueNotFoundException {
         Optional<Issue> issue = issueRepository.findById(id);
         Issue existingIssue = issue.orElseThrow(IssueNotFoundException::new);
