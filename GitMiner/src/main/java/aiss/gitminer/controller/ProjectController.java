@@ -20,8 +20,7 @@ public class ProjectController {
 
     @GetMapping
     public ResponseEntity<List<Project>> getAll() {
-        List<Project> projects = new ArrayList<>();
-        projectRepository.findAll().forEach(projects::add);
+        List<Project> projects = projectRepository.findAll();
         return ResponseEntity.ok(projects);
     }
 
