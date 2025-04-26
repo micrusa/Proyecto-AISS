@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="BitbucketMiner" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="aiss.bitbucketminer.BitbucketminerApplication" />
+    <module name="bitbucketminer" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
