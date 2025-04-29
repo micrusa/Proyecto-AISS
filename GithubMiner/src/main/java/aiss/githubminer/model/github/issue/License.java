@@ -1,7 +1,6 @@
 
 package aiss.githubminer.model.github.issue;
 
-import javax.annotation.Generated;
 
 import com.fasterxml.jackson.annotation.*;
 
