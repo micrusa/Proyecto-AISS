@@ -16,18 +16,15 @@ public class Project {
     public String id;
 
     @JsonProperty("name")
-
     public String name;
 
     @JsonProperty("web_url")
-
     public String webUrl;
-    @JsonProperty("commits")
 
+    @JsonProperty("commits")
     private List<Commit> commits;
 
     @JsonProperty("issues")
-
     private List<Issue> issues;
 
     public Project() {
