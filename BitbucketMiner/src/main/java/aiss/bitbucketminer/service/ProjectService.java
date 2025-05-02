@@ -8,9 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ProjectService {
@@ -18,49 +16,51 @@ public class ProjectService {
         RestTemplate restTemplate;
         @Value("${bitbucket.baseUri}")
         public String baseUri;
+        @Value("${bitbucket.baseUri}")
+        public String token;
 
-        String token = "ATBBvFTbExAruQghMU6RkkJ9qHwa06C66165";
-
-        /*String baseUri = "https://api.bitbucket.org/";*/
-
-        public List<Project> getProjects(String workspace) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Authorization", "Bearer " + token);
-            HttpEntity<String> entity = new HttpEntity<>(null, headers);
-
-            String uri = baseUri +"/workspaces/"+ workspace;
-            Project[] projects = restTemplate.getForObject(uri, Project[].class);
-
-            return Arrays.asList(projects);
-        }
-
-
-    public Project getProject(String workspace) {
+    /*public List<Project> getProjects(String workspace) {
         String uri = baseUri + "/workspaces/" + workspace + "/projects";
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + token);
         HttpEntity<String> entity = new HttpEntity<>(null, headers);
 
         Map<String, Object> response = restTemplate.getForObject(uri, Map.class);
-        List<Map<String, Object>> values = (List<Map<String, Object>>) response.get("values");
+        List<Project> projects = new ArrayList<>();
 
-        if (values == null || values.isEmpty()) return null;
+        if (response != null && response.containsKey("values")) {
+            List<Map<String, Object>> values = (List<Map<String, Object>>) response.get("values");
 
-        Map<String, Object> firstProject = values.get(0);
+            for (Map<String, Object> item : values) {
+                Project p = new Project();
+                p.setId((String) item.get("key")); // O usa name, según tu modelo
+                p.setName((String) item.get("name"));
 
-        Project project = new Project();
-        project.setId((String) firstProject.get("uuid"));
-        project.setName((String) firstProject.get("name"));
-        project.setWebUrl((String) firstProject.get("webUrl"));
-        // Agrega más setters si los tienes en tu modelo
+                // Obtener URL del proyecto si quieres
+                Map<String, Map<String, String>> links = (Map<String, Map<String, String>>) item.get("links");
+                if (links != null && links.containsKey("html")) {
+                    p.setWebUrl(links.get("html").get("href"));
+                }
+            }
+        }
+        return projects;
+    }*/
 
-        return project;
+
+
+    public Project getProject(String workspace, String projectKey) {
+        String uri = baseUri + "/workspaces/" + workspace + "/projects/" + projectKey;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+
+        return restTemplate.getForObject(uri, Project.class);
     }
-        public Project create(String owner, String repo, Project project) {
+        /*public Project create(String owner, String repo, Project project) {
             String uri = baseUri + owner + "/" + repo + "/projects";
             Project createdProject = restTemplate.postForObject(uri, project, Project.class);
             return createdProject;
 
         }
-
+*/
 }

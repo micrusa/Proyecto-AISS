@@ -20,15 +20,16 @@ class ProjectServiceTest {
     @Test
     @DisplayName("Get Project")
     void getProject() {
-        Project project = projectService.getProject("migboibor");
+        Project project = projectService.getProject("migboibor", "P1");
         assertNotNull(project);
         System.out.println(project);
     }
 
-    @Test
+
+    /*@Test
     void create() {
         Project project = projectService.create("spring-projects", "spring-framework", new Project());
         assertNotNull(project, "Project nulo");
         System.out.println("Project: " + project);
-    }
+    }*/
 }

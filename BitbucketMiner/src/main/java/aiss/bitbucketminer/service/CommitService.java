@@ -3,6 +3,7 @@ package aiss.bitbucketminer.service;
 import aiss.bitbucketminer.model.bitBucket.project.Project;
 import aiss.bitbucketminer.model.gitMiner.Commit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -18,26 +19,27 @@ public class CommitService {
     @Autowired
     RestTemplate restTemplate;
 
-    String baseUri = "https://api.bitbucket.org/2.0/";
+    @Value("${bitbucket.baseUri}")
+    public String baseUri;
+    @Value("${bitbucket.baseUri}")
+    public String token;
 
-    String token = "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";
-
-    public Commit getCommit(String owner, String repo, String id) {
+    public Commit getCommit(String workspace, String repo_slug, String commit) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + token);
         HttpEntity<String> entity = new HttpEntity<>(null, headers);
 
-        String uri = baseUri + owner + "/" + repo + "/commits/" + id;
-        Commit commit = restTemplate.getForObject(uri, Commit.class);
-        return commit;
+        String uri = baseUri + "/repositories/" + workspace + "/" + repo_slug + "/commits/" + commit;
+        Commit com = restTemplate.getForObject(uri, Commit.class);
+        return com;
     }
 
-    public List<Commit> getCommits(String owner, String repo) {
+    public List<Commit> getCommits(String workspace, String repo_slug) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + token);
         HttpEntity<String> entity = new HttpEntity<>(null, headers);
 
-        String uri = baseUri + owner + "/" + repo + "/commits/";
+        String uri = baseUri + "/repositories/" + workspace + "/" + repo_slug + "/commits/";
         Commit[] commits = restTemplate.getForObject(uri, Commit[].class);
         return List.of(commits);
 
