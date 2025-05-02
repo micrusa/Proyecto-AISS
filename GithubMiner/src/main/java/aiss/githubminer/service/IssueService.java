@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -22,10 +25,25 @@ public class IssueService {
     @Value("${github.token}")
     public String token;
 
-    public List<Issue> getAllIssues(String owner, String repo, LocalDateTime sinceDays, int maxPages) {
-        String uri = baseuri + owner + "/" + repo + "/issues?since=" + sinceDays + "&maxPages=" + maxPages;
-        Issue[] issues = restTemplate.getForObject(uri, Issue[].class);
-        return List.of(issues);
+    public List<Issue> getAllIssues(String owner, String repo, int sinceDays, int maxPages) {
+        List<Issue> allIssues = new ArrayList<>();
+        LocalDateTime sinceDate = LocalDateTime.now().minusDays(sinceDays);
+        String sinceParam = sinceDate.format(DateTimeFormatter.ISO_DATE_TIME);
+
+        int page = 1;
+        while (page <= maxPages) {
+            String uri = String.format("%s/%s/%s/issues?since=%s&page=%d",
+                    baseuri, owner, repo, sinceParam, page);
+            Issue[] issues = restTemplate.getForObject(uri, Issue[].class);
+            if (issues == null || issues.length == 0) {
+                break;
+            }
+            allIssues.addAll(Arrays.asList(issues));
+            page++;
+        }
+
+        return allIssues;
+
     }
 
     public Issue getIssue(String owner, String repo, String number) {
