@@ -21,29 +21,33 @@ public class UserService {
 
     @Value("${bitbucket.baseUri}")
     public String baseUri;
+    @Value("${bitbucket.token")
+    public String token;
 
+    public User getCurrentUser() {
+        String uri = baseUri + "/user";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
 
-    String token = "ATBBvFTbExAruQghMU6RkkJ9qHwa06C66165";
-
-    public List<User> getUsers() {
-
-        User[] users = restTemplate.getForObject(baseUri, User[].class);
-
-        return Arrays.asList(users);
-    }
-
-    public User getUser(String id) {
-        String uri = baseUri + id;
         User user = restTemplate.getForObject(uri, User.class);
 
         return user;
     }
 
-  /*  public User create() {
-        User createdUser = restTemplate.postForObject(uri, project, Project.class);
-        return createdUser;
+    public User getUserById(String userId) {
+        String uri = baseUri + "/users/" + userId;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
 
-    }*/
+        User user = restTemplate.getForObject(uri, User.class);
+
+        return user;
+    }
+
+
+
 
 }
 

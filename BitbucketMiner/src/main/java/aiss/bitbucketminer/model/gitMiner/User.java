@@ -10,7 +10,6 @@ public class User {
     @JsonProperty("id")
     private String id;
     @JsonProperty("username")
-
     private String username;
     @JsonProperty("name")
     private String name;
