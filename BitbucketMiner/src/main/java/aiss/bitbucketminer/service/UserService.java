@@ -2,7 +2,7 @@ package aiss.bitbucketminer.service;
 
 
 import aiss.bitbucketminer.model.gitMiner.Project;
-import aiss.bitbucketminer.model.gitMiner.User;
+import aiss.bitbucketminer.model.bitBucket.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -17,25 +17,18 @@ import java.util.List;
 public class UserService {
 
     @Autowired
-    RestTemplate restTemplate;
-
-    @Value("${bitbucket.baseUri}")
-    public String baseUri;
-    @Value("${bitbucket.token")
-    public String token;
+    BitbucketService bitbucketService;
 
     public User getCurrentUser() {
-        String uri = baseUri + "/user";
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(token);
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
 
-        User user = restTemplate.getForObject(uri, User.class);
+        String uri = "user";
+
+        User user = bitbucketService.getForAuthenticated(uri, User.class);
 
         return user;
     }
 
-    public User getUserById(String userId) {
+  /*  public User getUserById(String userId) {
         String uri = baseUri + "/users/" + userId;
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
@@ -44,7 +37,7 @@ public class UserService {
         User user = restTemplate.getForObject(uri, User.class);
 
         return user;
-    }
+    }*/
 
 
 

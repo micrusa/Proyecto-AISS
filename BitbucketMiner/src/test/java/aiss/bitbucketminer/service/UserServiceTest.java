@@ -1,8 +1,9 @@
 package aiss.bitbucketminer.service;
 
 import aiss.bitbucketminer.BitbucketminerApplication;
-import aiss.bitbucketminer.model.gitMiner.Project;
-import aiss.bitbucketminer.model.gitMiner.User;
+
+
+import aiss.bitbucketminer.model.bitBucket.user.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,11 @@ class UserServiceTest {
         System.out.println(user);
     }
 
-    @Test
+   /* @Test
     @DisplayName("Get user by Id")
     void getUserById() {
         User user = userService.getUserById("Miguel Boix");
         assertNotNull(user);
         System.out.println(user);
-    }
+    }*/
 }

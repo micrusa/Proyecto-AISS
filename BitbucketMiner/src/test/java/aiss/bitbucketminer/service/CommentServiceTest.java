@@ -1,7 +1,7 @@
 package aiss.bitbucketminer.service;
 
 import aiss.bitbucketminer.BitbucketminerApplication;
-import aiss.bitbucketminer.model.gitMiner.Comment;
+import aiss.bitbucketminer.model.bitBucket.comment.Comment;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
