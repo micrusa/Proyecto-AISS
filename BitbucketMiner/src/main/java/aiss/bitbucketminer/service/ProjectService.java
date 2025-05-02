@@ -13,11 +13,7 @@ import java.util.*;
 @Service
 public class ProjectService {
         @Autowired
-        RestTemplate restTemplate;
-        @Value("${bitbucket.baseUri}")
-        public String baseUri;
-        @Value("${bitbucket.token}")
-        public String token;
+        BitbucketService bitbucketService;
 
     /*public List<Project> getProjects(String workspace) {
         String uri = baseUri + "/workspaces/" + workspace + "/projects";
@@ -49,12 +45,9 @@ public class ProjectService {
 
 
     public Project getProject(String workspace, String projectKey) {
-        String uri = baseUri + "/workspaces/" + workspace + "/projects/" + projectKey;
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(token);
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        String uri = "workspaces/" + workspace + "/projects/" + projectKey;
 
-        return restTemplate.getForObject(uri, Project.class);
+        return bitbucketService.getForAuthenticated(uri, Project.class);
     }
         /*public Project create(String owner, String repo, Project project) {
             String uri = baseUri + owner + "/" + repo + "/projects";

@@ -17,30 +17,16 @@ import java.util.List;
 public class CommitService {
 
     @Autowired
-    RestTemplate restTemplate;
-
-    @Value("${bitbucket.baseUri}")
-    public String baseUri;
-    @Value("${bitbucket.token}")
-    public String token;
+    BitbucketService bitbucketService;
 
     public Commit getCommit(String workspace, String repo_slug, String commit) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + token);
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
-
-        String uri = baseUri + "/repositories/" + workspace + "/" + repo_slug + "/commits/" + commit;
-        Commit com = restTemplate.getForObject(uri, Commit.class);
-        return com;
+        String uri = "repositories/" + workspace + "/" + repo_slug + "/commits/" + commit;
+        return bitbucketService.getForAuthenticated(uri, Commit.class);
     }
 
     public List<Commit> getCommits(String workspace, String repo_slug) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + token);
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
-
-        String uri = baseUri + "/repositories/" + workspace + "/" + repo_slug + "/commits/";
-        Commit[] commits = restTemplate.getForObject(uri, Commit[].class);
+        String uri = "repositories/" + workspace + "/" + repo_slug + "/commits";
+        Commit[] commits = bitbucketService.getForAuthenticated(uri, Commit[].class);
         return List.of(commits);
 
     }
