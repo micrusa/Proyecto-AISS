@@ -17,16 +17,9 @@ public class BitbucketService {
 
     @Value("${bitbucket.baseUri}")
     public String baseUri;
-    @Value("${bitbucket.username}")
-    public String username;
-    @Value("${bitbucket.password}")
-    public String password;
 
     public <T> T getForAuthenticated(String bitbucketUri, Class<T> responseType) {
         HttpHeaders headers = new HttpHeaders();
-        String auth = username + ":" + password;
-        byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes());
-/*        headers.add("Authorization", "Basic " + new String(encodedAuth));*/
         HttpEntity<T> entity = new HttpEntity<>(null, headers);
 
         String uri = baseUri + bitbucketUri;
