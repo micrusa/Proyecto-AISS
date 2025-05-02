@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
@@ -72,7 +73,7 @@ public class ProjectController {
             tags = {"projects", "post"}
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = {
+            @ApiResponse(responseCode = "201", content = {
                     @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Project.class))
             }),
@@ -85,6 +86,60 @@ public class ProjectController {
             @Parameter(description = "Project to be created", required = true) @RequestBody Project project
     ) {
         Project createdProject = projectRepository.save(project);
-        return ResponseEntity.ok(createdProject);
+        return new ResponseEntity<>(createdProject, HttpStatus.CREATED);
+    }
+
+    @Operation(
+            summary = "Update project",
+            description = "Update an existing project object",
+            tags = {"projects", "put"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Project.class))
+            }),
+            @ApiResponse(responseCode = "404", content = {
+                    @Content(schema = @Schema())
+            }),
+            @ApiResponse(responseCode = "400", content = {
+                    @Content(schema = @Schema())
+            })
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<Project> update(
+            @Parameter(description = "ID of the project to be updated", required = true) @PathVariable(name = "id") String id,
+            @Parameter(description = "Updated project object", required = true) @RequestBody Project project
+    ) {
+        if (!projectRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        project.setId(id);
+        Project updatedProject = projectRepository.save(project);
+        return ResponseEntity.ok(updatedProject);
+    }
+
+    @Operation(
+            summary = "Delete project",
+            description = "Delete a project object by specifying its ID",
+            tags = {"projects", "delete"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", content = {
+                    @Content(schema = @Schema())
+            }),
+            @ApiResponse(responseCode = "404", content = {
+                    @Content(schema = @Schema())
+            })
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(
+            @Parameter(description = "ID of the project to be deleted", required = true) @PathVariable(name = "id") String id
+    ) {
+        if (!projectRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        projectRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
