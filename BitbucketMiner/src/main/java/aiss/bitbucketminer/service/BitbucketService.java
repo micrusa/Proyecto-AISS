@@ -8,6 +8,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Base64;
+
 @Service
 public class BitbucketService {
     @Autowired
@@ -15,12 +17,16 @@ public class BitbucketService {
 
     @Value("${bitbucket.baseUri}")
     public String baseUri;
-    @Value("${bitbucket.token}")
-    public String token;
+    @Value("${bitbucket.username}")
+    public String username;
+    @Value("${bitbucket.password}")
+    public String password;
 
     public <T> T getForAuthenticated(String bitbucketUri, Class<T> responseType) {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + token);
+        String auth = username + ":" + password;
+        byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes());
+        headers.add("Authorization", "Basic " + new String(encodedAuth));
         HttpEntity<T> entity = new HttpEntity<>(null, headers);
 
         String uri = baseUri + bitbucketUri;
