@@ -1,7 +1,7 @@
 package aiss.bitbucketminer.service;
 
 import aiss.bitbucketminer.BitbucketminerApplication;
-import aiss.bitbucketminer.model.gitMiner.Project;
+import aiss.bitbucketminer.model.bitBucket.project.Project;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +25,4 @@ class ProjectServiceTest {
         System.out.println(project);
     }
 
-
-    /*@Test
-    void create() {
-        Project project = projectService.create("spring-projects", "spring-framework", new Project());
-        assertNotNull(project, "Project nulo");
-        System.out.println("Project: " + project);
-    }*/
 }

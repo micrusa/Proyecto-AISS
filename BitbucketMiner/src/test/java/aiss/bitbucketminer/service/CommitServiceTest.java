@@ -1,8 +1,8 @@
 package aiss.bitbucketminer.service;
 
 import aiss.bitbucketminer.BitbucketminerApplication;
-import aiss.bitbucketminer.model.gitMiner.Commit;
-import aiss.bitbucketminer.model.gitMiner.Project;
+import aiss.bitbucketminer.model.bitBucket.commit.Commit;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ class CommitServiceTest {
     @Test
     @DisplayName("Get Commit")
     void getCommit() {
-        Commit commit = commitService.getCommit("migboibor", "prueba2", "");
+        Commit commit = commitService.getCommit("migboibor", "prueba2", "85c93c7f99da23fca2fa1a8fcb0219e805cb2c81");
         assertNotNull(commit);
         System.out.println(commit);
     }

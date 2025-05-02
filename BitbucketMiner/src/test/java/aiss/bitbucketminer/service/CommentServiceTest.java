@@ -25,7 +25,6 @@ class CommentServiceTest {
         assertNotNull(comments);
         assertFalse(comments.isEmpty());
         System.out.println(comments);
-
     }
 
     @Test

@@ -1,7 +1,7 @@
 package aiss.bitbucketminer.service;
 
 import aiss.bitbucketminer.model.bitBucket.project.Project;
-import aiss.bitbucketminer.model.gitMiner.Commit;
+import aiss.bitbucketminer.model.bitBucket.commit.Commit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;

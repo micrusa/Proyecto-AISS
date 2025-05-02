@@ -26,7 +26,7 @@ public class BitbucketService {
         HttpHeaders headers = new HttpHeaders();
         String auth = username + ":" + password;
         byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes());
-        headers.add("Authorization", "Basic " + new String(encodedAuth));
+/*        headers.add("Authorization", "Basic " + new String(encodedAuth));*/
         HttpEntity<T> entity = new HttpEntity<>(null, headers);
 
         String uri = baseUri + bitbucketUri;
