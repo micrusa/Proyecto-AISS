@@ -2,6 +2,8 @@ package aiss.bitbucketminer.service;
 
 
 import aiss.bitbucketminer.model.bitBucket.comment.Comment;
+import aiss.bitbucketminer.model.bitBucket.comment.CommentContainer;
+import aiss.bitbucketminer.model.bitBucket.commit.CommitContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +20,8 @@ public class CommentService {
 
 
         String uri = "repositories/" + workspace + "/" + repo_slug + "/commit/" + commit + "/comments";
-        Comment[] comments = bitbucketService.getForAuthenticated(uri, Comment[].class);
-        return List.of(comments);
+        CommentContainer comments = bitbucketService.getForAuthenticated(uri, CommentContainer.class);
+        return comments.getValues();
     }
 
     public Comment getComment(String workspace, String repo_slug,String commit, String id) {

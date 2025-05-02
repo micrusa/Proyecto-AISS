@@ -1,6 +1,7 @@
 package aiss.bitbucketminer.service;
 
 import aiss.bitbucketminer.model.bitBucket.commit.Commit;
+import aiss.bitbucketminer.model.bitBucket.commit.CommitContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +20,10 @@ public class CommitService {
 
     public List<Commit> getCommits(String workspace, String repo_slug) {
         String uri = "repositories/" + workspace + "/" + repo_slug + "/commits";
-        Commit[] commits = bitbucketService.getForAuthenticated(uri, Commit[].class);
-        return List.of(commits);
+        CommitContainer commits = bitbucketService.getForAuthenticated(uri, CommitContainer.class);
+        return commits.getValues();
 
     }
 }
+
+
