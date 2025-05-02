@@ -18,32 +18,29 @@ public class IssueService {
     @Value("${github.baseuri}")
     public String baseuri;
 
+    @Value("${github.token}")
+    public String token;
+
     public List<Issue> getAllIssues(String owner, String repo) {
         String uri = baseuri + owner + "/" + repo + "/issues";
         Issue[] issues = restTemplate.getForObject(uri, Issue[].class);
         return List.of(issues);
     }
 
-    public Issue getIssue(String project, String id) {
-        String uri = baseuri + project + "/issues/" + id;
+    public Issue getIssue(String owner, String repo, String number) {
+        String uri = baseuri + owner + "/" + repo + "/issues/" + number;
         Issue issue = restTemplate.getForObject(uri, Issue.class);
         return issue;
     }
 
-    public List<Issue> getIssuesByUser(String user) {
-        String uri = "https://api.github.com/repos/" + user + "/issues";
-        Issue[] issues = restTemplate.getForObject(uri, Issue[].class);
-        return List.of(issues);
+    public Issue getIssuesByState(String owner, String repo, String state) {
+        String uri = baseuri + owner + "/" + repo + "/issues?state=" + state;
+        Issue issue = restTemplate.getForObject(uri, Issue.class);
+        return issue;
     }
 
-    public List<Issue> getIssuesByState(String project, String state) {
-        String uri = "https://api.github.com/repos/" + project + "/issues?labels=" + state;
-        Issue[] issues = restTemplate.getForObject(uri, Issue[].class);
-        return List.of(issues);
-    }
-
-    public List<Issue> getIssuesComments(String owner, String repo, String id) {
-        String uri = "https://api.github.com/repos/" + owner + "/" + repo + "/issues/" + id + "/comments";
+    public List<Issue> getIssuesComments(String owner, String repo) {
+        String uri = "https://api.github.com/repos/" + owner + "/" + repo + "/issues/comments";
         Issue[] issues = restTemplate.getForObject(uri, Issue[].class);
         return List.of(issues);
     }

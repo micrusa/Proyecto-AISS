@@ -17,7 +17,7 @@ class IssueServiceTest {
 
     @Test
     void getAllIssues() {
-        List<Issue> issues = issueService.getAllIssues("spring-projects", "spring-framework");
+        List<Issue> issues = issueService.getAllIssues("octocat", "Hello-World");
         assertNotNull(issues);
         assertFalse(issues.isEmpty());
         System.out.println(issues);
@@ -25,17 +25,23 @@ class IssueServiceTest {
 
     @Test
     void getIssue() {
-    }
-
-    @Test
-    void getIssuesByUser() {
+        Issue issue = issueService.getIssue("octocat", "Hello-World", "3918");
+        assertNotNull(issue);
+        System.out.println(issue);
     }
 
     @Test
     void getIssuesByState() {
+        Issue issue = issueService.getIssuesByState("octocat", "Hello-World", "open");
+        assertNotNull(issue);
+        System.out.println(issue);
     }
 
     @Test
     void getIssuesComments() {
+        List<Issue> issues = issueService.getIssuesComments("octocat", "Hello-World");
+        assertNotNull(issues);
+        assertFalse(issues.isEmpty());
+        System.out.println(issues);
     }
 }
