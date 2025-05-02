@@ -2,7 +2,7 @@ package aiss.bitbucketminer.service;
 
 
 import aiss.bitbucketminer.model.gitMiner.Project;
-import aiss.bitbucketminer.model.gitMiner.User;
+import aiss.bitbucketminer.model.bitBucket.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -17,33 +17,30 @@ import java.util.List;
 public class UserService {
 
     @Autowired
-    RestTemplate restTemplate;
+    BitbucketService bitbucketService;
 
-    @Value("${bitbucket.baseUri}")
-    public String baseUri;
+    public User getCurrentUser() {
 
+        String uri = "user";
 
-    String token = "ATBBvFTbExAruQghMU6RkkJ9qHwa06C66165";
-
-    public List<User> getUsers() {
-
-        User[] users = restTemplate.getForObject(baseUri, User[].class);
-
-        return Arrays.asList(users);
-    }
-
-    public User getUser(String id) {
-        String uri = baseUri + id;
-        User user = restTemplate.getForObject(uri, User.class);
+        User user = bitbucketService.getForAuthenticated(uri, User.class);
 
         return user;
     }
 
-  /*  public User create() {
-        User createdUser = restTemplate.postForObject(uri, project, Project.class);
-        return createdUser;
+  /*  public User getUserById(String userId) {
+        String uri = baseUri + "/users/" + userId;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
 
+        User user = restTemplate.getForObject(uri, User.class);
+
+        return user;
     }*/
+
+
+
 
 }
 

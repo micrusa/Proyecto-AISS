@@ -16,7 +16,7 @@ public class ProjectService {
         RestTemplate restTemplate;
         @Value("${bitbucket.baseUri}")
         public String baseUri;
-        @Value("${bitbucket.baseUri}")
+        @Value("${bitbucket.token}")
         public String token;
 
     /*public List<Project> getProjects(String workspace) {

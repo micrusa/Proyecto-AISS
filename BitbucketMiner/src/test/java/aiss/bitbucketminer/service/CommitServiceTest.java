@@ -33,7 +33,5 @@ class CommitServiceTest {
         assertNotNull(commits);
         assertFalse(commits.isEmpty());
         System.out.println(commits);
-
-
     }
 }

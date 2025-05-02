@@ -1,7 +1,7 @@
 
 package aiss.bitbucketminer.model.gitMiner;
 
-import aiss.gitminer.model.User;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 

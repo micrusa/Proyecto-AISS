@@ -21,7 +21,7 @@ public class CommitService {
 
     @Value("${bitbucket.baseUri}")
     public String baseUri;
-    @Value("${bitbucket.baseUri}")
+    @Value("${bitbucket.token}")
     public String token;
 
     public Commit getCommit(String workspace, String repo_slug, String commit) {
