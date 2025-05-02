@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -21,8 +22,8 @@ public class IssueService {
     @Value("${github.token}")
     public String token;
 
-    public List<Issue> getAllIssues(String owner, String repo) {
-        String uri = baseuri + owner + "/" + repo + "/issues";
+    public List<Issue> getAllIssues(String owner, String repo, LocalDateTime sinceDays, int maxPages) {
+        String uri = baseuri + owner + "/" + repo + "/issues?since=" + sinceDays + "&maxPages=" + maxPages;
         Issue[] issues = restTemplate.getForObject(uri, Issue[].class);
         return List.of(issues);
     }
@@ -31,17 +32,5 @@ public class IssueService {
         String uri = baseuri + owner + "/" + repo + "/issues/" + number;
         Issue issue = restTemplate.getForObject(uri, Issue.class);
         return issue;
-    }
-
-    public Issue getIssuesByState(String owner, String repo, String state) {
-        String uri = baseuri + owner + "/" + repo + "/issues?state=" + state;
-        Issue issue = restTemplate.getForObject(uri, Issue.class);
-        return issue;
-    }
-
-    public List<Issue> getIssuesComments(String owner, String repo) {
-        String uri = "https://api.github.com/repos/" + owner + "/" + repo + "/issues/comments";
-        Issue[] issues = restTemplate.getForObject(uri, Issue[].class);
-        return List.of(issues);
     }
 }

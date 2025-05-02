@@ -22,10 +22,4 @@ public class CommentService {
         Comment[] comments = restTemplate.getForObject(uri, Comment[].class);
         return List.of(comments);
     }
-
-    public Comment getCommentById(String owner, String repo, String id) {
-        String uri = baseuri + owner + "/" + repo + "/comments/" + id;
-        Comment comment = restTemplate.getForObject(uri, Comment.class);
-        return comment;
-    }
 }

@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,7 +19,7 @@ class IssueServiceTest {
 
     @Test
     void getAllIssues() {
-        List<Issue> issues = issueService.getAllIssues("octocat", "Hello-World");
+        List<Issue> issues = issueService.getAllIssues("octocat", "Hello-World", LocalDateTime.of(2025, Month.MAY,1,0,0), 5);
         assertNotNull(issues);
         assertFalse(issues.isEmpty());
         System.out.println(issues);
@@ -30,18 +32,4 @@ class IssueServiceTest {
         System.out.println(issue);
     }
 
-    @Test
-    void getIssuesByState() {
-        Issue issue = issueService.getIssuesByState("octocat", "Hello-World", "open");
-        assertNotNull(issue);
-        System.out.println(issue);
-    }
-
-    @Test
-    void getIssuesComments() {
-        List<Issue> issues = issueService.getIssuesComments("octocat", "Hello-World");
-        assertNotNull(issues);
-        assertFalse(issues.isEmpty());
-        System.out.println(issues);
-    }
 }

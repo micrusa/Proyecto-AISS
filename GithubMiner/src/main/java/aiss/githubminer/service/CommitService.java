@@ -17,16 +17,11 @@ public class CommitService {
     @Value("${github.baseuri}")
     public String baseuri;
 
-    public List<Commit> getCommits(String owner, String repo) {
-        String uri = baseuri + owner + "/" + repo + "/commits";
+    public List<Commit> getCommits(String owner, String repo, int sinceDays, int maxPages ) {
+        String uri = baseuri + owner + "/" + repo + "/commits?since=" + sinceDays + "&maxPages=" + maxPages;
         Commit[] commits = restTemplate.getForObject(uri, Commit[].class);
         return List.of(commits);
     }
 
-    public Commit getCommit(String owner, String repo, String ref) {
-        String uri = baseuri + owner + "/" + repo + "/commits/" + ref;
-        Commit commit = restTemplate.getForObject(uri, Commit.class);
-        return commit;
-    }
 
 }

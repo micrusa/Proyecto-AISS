@@ -24,11 +24,4 @@ class CommentServiceTest {
             System.out.println(comment);
         }
     }
-
-    @Test
-    void getCommentById() {
-        Comment comment = commentService.getCommentById("spring-projects", "spring-framework", "529825");
-        assertNotNull(comment);
-        System.out.println(comment);
-    }
 }

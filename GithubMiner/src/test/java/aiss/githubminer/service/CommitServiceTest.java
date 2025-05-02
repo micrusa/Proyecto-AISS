@@ -18,18 +18,10 @@ class CommitServiceTest {
 
     @Test
     void getCommits() {
-        List<Commit> commits = commitService.getCommits("spring-projects", "spring-framework");
+        List<Commit> commits = commitService.getCommits("spring-projects", "spring-framework", 90, 5);
         assertNotNull(commits);
         assertFalse(commits.isEmpty());
         System.out.println(commits);
-    }
-
-    @Test
-    void getCommit() {
-        Commit commit = commitService.getCommit("spring-projects", "spring-framework", "b98ef1309bdeda0f1177b93becc19c7b8ba66c35");
-        assertNotNull(commit);
-        assertEquals("b98ef1309bdeda0f1177b93becc19c7b8ba66c35", commit.getSha());
-        System.out.println(commit);
     }
 
 }
