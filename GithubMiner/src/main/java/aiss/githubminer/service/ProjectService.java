@@ -14,21 +14,12 @@ import java.util.List;
 public class ProjectService {
 
     @Autowired
-    RestTemplate restTemplate;
-
-    @Value("${github.baseuri}")
-    public String baseuri;
-
-    @Value("${github.token}")
-    public String token;
+    GithubService githubService;
 
     public Project getProject(String owner, String repo) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + token);
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
-        String uri = baseuri + owner + "/" + repo ;
-        Project projectDetails = restTemplate.getForObject(uri, Project.class);
-        return projectDetails;
+        String uri = owner + "/" + repo ;
+        ResponseEntity<Project> response = githubService.getAuthenticated(uri, Project.class);
+        return response.getBody();
     }
 
 }

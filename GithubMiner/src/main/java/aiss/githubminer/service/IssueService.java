@@ -1,8 +1,10 @@
 package aiss.githubminer.service;
 
 import aiss.githubminer.model.github.issue.Issue;
+import aiss.githubminer.utils.GithubUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -17,13 +19,7 @@ import java.util.List;
 public class IssueService {
 
     @Autowired
-    RestTemplate restTemplate;
-
-    @Value("${github.baseuri}")
-    public String baseuri;
-
-    @Value("${github.token}")
-    public String token;
+    GithubService githubService;
 
     public List<Issue> getAllIssues(String owner, String repo, int sinceDays, int maxPages) {
         List<Issue> allIssues = new ArrayList<>();
@@ -31,15 +27,19 @@ public class IssueService {
         String sinceParam = sinceDate.format(DateTimeFormatter.ISO_DATE_TIME);
 
         int page = 1;
-        while (page <= maxPages) {
-            String uri = String.format("%s/%s/%s/issues?since=%s&page=%d",
-                    baseuri, owner, repo, sinceParam, page);
-            Issue[] issues = restTemplate.getForObject(uri, Issue[].class);
+        String currentUri = String.format("%s/%s/issues?since=%s&page=%d",
+                owner, repo, sinceParam, page);
+
+        while (page++ <= maxPages && currentUri != null) {
+            ResponseEntity<Issue[]> response = githubService.getAuthenticated(currentUri, Issue[].class);
+            Issue[] issues = response.getBody();
+
             if (issues == null || issues.length == 0) {
                 break;
             }
+
             allIssues.addAll(Arrays.asList(issues));
-            page++;
+            currentUri = GithubUtils.getNextPageUrl(response.getHeaders());
         }
 
         return allIssues;
@@ -47,8 +47,8 @@ public class IssueService {
     }
 
     public Issue getIssue(String owner, String repo, String number) {
-        String uri = baseuri + owner + "/" + repo + "/issues/" + number;
-        Issue issue = restTemplate.getForObject(uri, Issue.class);
-        return issue;
+        String uri = owner + "/" + repo + "/issues/" + number;
+        return githubService.getAuthenticated(uri, Issue.class).getBody();
     }
+
 }

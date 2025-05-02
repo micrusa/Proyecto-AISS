@@ -12,14 +12,11 @@ import java.util.List;
 public class CommentService {
 
     @Autowired
-    RestTemplate restTemplate;
-
-    @Value("${github.baseuri}")
-    public String baseuri;
+    GithubService githubService;
 
     public List<Comment> getComments(String owner, String repo) {
-        String uri = baseuri + owner + "/" + repo + "/comments";
-        Comment[] comments = restTemplate.getForObject(uri, Comment[].class);
+        String uri = owner + "/" + repo + "/comments";
+        Comment[] comments = githubService.getAuthenticated(uri, Comment[].class).getBody();
         return List.of(comments);
     }
 }
