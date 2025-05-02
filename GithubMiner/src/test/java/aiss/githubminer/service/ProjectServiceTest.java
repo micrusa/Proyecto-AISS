@@ -19,7 +19,7 @@ class ProjectServiceTest {
     @Test
     @DisplayName("Get project by ID")
     void getProject() {
-        String id = "123456789";
+        String id = "1002604";
         Project project = projectService.getProject(id);
         assertNotNull(project);
         assertEquals(id, project.getId());
@@ -29,7 +29,7 @@ class ProjectServiceTest {
     @Test
     @DisplayName("Get all projects")
     void getProjects() {
-        List<Project> projects = projectService.getProjects("spring-projects", "spring-framework");
+        List<Project> projects = projectService.getProjects("spring-projects", "spring-boot");
         assertNotNull(projects);
         assertFalse(projects.isEmpty());
         for (Project project : projects) {

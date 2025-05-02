@@ -43,6 +43,8 @@ public class User {
     private String receivedEventsUrl;
     @JsonProperty("type")
     private String type;
+    @JsonProperty("user_view_type")
+    private String userViewType;
     @JsonProperty("site_admin")
     private Boolean siteAdmin;
 
@@ -216,6 +218,16 @@ public class User {
         this.type = type;
     }
 
+    @JsonProperty("user_view_type")
+    public String getUserViewType() {
+        return userViewType;
+    }
+
+    @JsonProperty("user_view_type")
+    public void setUserViewType(String userViewType) {
+        this.userViewType = userViewType;
+    }
+
     @JsonProperty("site_admin")
     public Boolean getSiteAdmin() {
         return siteAdmin;
@@ -297,6 +309,10 @@ public class User {
         sb.append("type");
         sb.append('=');
         sb.append(((this.type == null)?"<null>":this.type));
+        sb.append(',');
+        sb.append("userViewType");
+        sb.append('=');
+        sb.append(((this.userViewType == null)?"<null>":this.userViewType));
         sb.append(',');
         sb.append("siteAdmin");
         sb.append('=');
