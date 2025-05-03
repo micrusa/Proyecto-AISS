@@ -132,54 +132,18 @@ public class Comment {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(Comment.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("id");
-        sb.append('=');
-        sb.append(((this.id == null)?"<null>":this.id));
-        sb.append(',');
-        sb.append("nodeId");
-        sb.append('=');
-        sb.append(((this.nodeId == null)?"<null>":this.nodeId));
-        sb.append(',');
-        sb.append("url");
-        sb.append('=');
-        sb.append(((this.url == null)?"<null>":this.url));
-        sb.append(',');
-        sb.append("htmlUrl");
-        sb.append('=');
-        sb.append(((this.htmlUrl == null)?"<null>":this.htmlUrl));
-        sb.append(',');
-        sb.append("body");
-        sb.append('=');
-        sb.append(((this.body == null)?"<null>":this.body));
-        sb.append(',');
-        sb.append("user");
-        sb.append('=');
-        sb.append(((this.user == null)?"<null>":this.user));
-        sb.append(',');
-        sb.append("createdAt");
-        sb.append('=');
-        sb.append(((this.createdAt == null)?"<null>":this.createdAt));
-        sb.append(',');
-        sb.append("updatedAt");
-        sb.append('=');
-        sb.append(((this.updatedAt == null)?"<null>":this.updatedAt));
-        sb.append(',');
-        sb.append("issueUrl");
-        sb.append('=');
-        sb.append(((this.issueUrl == null)?"<null>":this.issueUrl));
-        sb.append(',');
-        sb.append("authorAssociation");
-        sb.append('=');
-        sb.append(((this.authorAssociation == null)?"<null>":this.authorAssociation));
-        sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
-        } else {
-            sb.append(']');
-        }
-        return sb.toString();
+        return "Comment {\n" +
+                "  id = " + (id == null ? "<null>" : id) + ",\n" +
+                "  nodeId = " + (nodeId == null ? "<null>" : nodeId) + ",\n" +
+                "  url = " + (url == null ? "<null>" : url) + ",\n" +
+                "  htmlUrl = " + (htmlUrl == null ? "<null>" : htmlUrl) + ",\n" +
+                "  body = " + (body == null ? "<null>" : body) + ",\n" +
+                "  user = " + (user == null ? "<null>" : user) + ",\n" +
+                "  createdAt = " + (createdAt == null ? "<null>" : createdAt) + ",\n" +
+                "  updatedAt = " + (updatedAt == null ? "<null>" : updatedAt) + ",\n" +
+                "  issueUrl = " + (issueUrl == null ? "<null>" : issueUrl) + ",\n" +
+                "  authorAssociation = " + (authorAssociation == null ? "<null>" : authorAssociation) + "\n" +
+                '}';
     }
 
 }

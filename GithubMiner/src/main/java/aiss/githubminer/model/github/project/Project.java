@@ -192,74 +192,23 @@ public class Project {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(Project.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("ownerUrl");
-        sb.append('=');
-        sb.append(((this.ownerUrl == null)?"<null>":this.ownerUrl));
-        sb.append(',');
-        sb.append("url");
-        sb.append('=');
-        sb.append(((this.url == null)?"<null>":this.url));
-        sb.append(',');
-        sb.append("htmlUrl");
-        sb.append('=');
-        sb.append(((this.htmlUrl == null)?"<null>":this.htmlUrl));
-        sb.append(',');
-        sb.append("columnsUrl");
-        sb.append('=');
-        sb.append(((this.columnsUrl == null)?"<null>":this.columnsUrl));
-        sb.append(',');
-        sb.append("id");
-        sb.append('=');
-        sb.append(((this.id == null)?"<null>":this.id));
-        sb.append(',');
-        sb.append("nodeId");
-        sb.append('=');
-        sb.append(((this.nodeId == null)?"<null>":this.nodeId));
-        sb.append(',');
-        sb.append("name");
-        sb.append('=');
-        sb.append(((this.name == null)?"<null>":this.name));
-        sb.append(',');
-        sb.append("body");
-        sb.append('=');
-        sb.append(((this.body == null)?"<null>":this.body));
-        sb.append(',');
-        sb.append("number");
-        sb.append('=');
-        sb.append(((this.number == null)?"<null>":this.number));
-        sb.append(',');
-        sb.append("state");
-        sb.append('=');
-        sb.append(((this.state == null)?"<null>":this.state));
-        sb.append(',');
-        sb.append("creator");
-        sb.append('=');
-        sb.append(((this.creator == null)?"<null>":this.creator));
-        sb.append(',');
-        sb.append("createdAt");
-        sb.append('=');
-        sb.append(((this.createdAt == null)?"<null>":this.createdAt));
-        sb.append(',');
-        sb.append("updatedAt");
-        sb.append('=');
-        sb.append(((this.updatedAt == null)?"<null>":this.updatedAt));
-        sb.append(',');
-        sb.append("organizationPermission");
-        sb.append('=');
-        sb.append(((this.organizationPermission == null)?"<null>":this.organizationPermission));
-        sb.append(',');
-        sb.append("_private");
-        sb.append('=');
-        sb.append(((this._private == null)?"<null>":this._private));
-        sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
-        } else {
-            sb.append(']');
-        }
-        return sb.toString();
+        return "Project {\n" +
+                "  ownerUrl = " + (ownerUrl == null ? "<null>" : ownerUrl) + ",\n" +
+                "  url = " + (url == null ? "<null>" : url) + ",\n" +
+                "  htmlUrl = " + (htmlUrl == null ? "<null>" : htmlUrl) + ",\n" +
+                "  columnsUrl = " + (columnsUrl == null ? "<null>" : columnsUrl) + ",\n" +
+                "  id = " + (id == null ? "<null>" : id) + ",\n" +
+                "  nodeId = " + (nodeId == null ? "<null>" : nodeId) + ",\n" +
+                "  name = " + (name == null ? "<null>" : name) + ",\n" +
+                "  body = " + (body == null ? "<null>" : body) + ",\n" +
+                "  number = " + (number == null ? "<null>" : number) + ",\n" +
+                "  state = " + (state == null ? "<null>" : state) + ",\n" +
+                "  creator = " + (creator == null ? "<null>" : creator) + ",\n" +
+                "  createdAt = " + (createdAt == null ? "<null>" : createdAt) + ",\n" +
+                "  updatedAt = " + (updatedAt == null ? "<null>" : updatedAt) + ",\n" +
+                "  organizationPermission = " + (organizationPermission == null ? "<null>" : organizationPermission) + ",\n" +
+                "  _private = " + (_private == null ? "<null>" : _private) + "\n" +
+                '}';
     }
 
 }

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Committer__1 {
+public class Committer__1 extends Committer {
 
     @JsonProperty("login")
     private String login;

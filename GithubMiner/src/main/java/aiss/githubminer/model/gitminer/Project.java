@@ -8,15 +8,12 @@ public class Project {
 
     @JsonProperty("id")
     public String id;
-
     @JsonProperty("name")
     public String name;
-
     @JsonProperty("web_url")
     public String webUrl;
     @JsonProperty("commits")
     private List<Commit> commits;
-
     @JsonProperty("issues")
     private List<Issue> issues;
 
