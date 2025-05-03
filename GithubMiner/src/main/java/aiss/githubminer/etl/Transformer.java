@@ -6,10 +6,12 @@ import aiss.githubminer.model.gitminer.Comment;
 import aiss.githubminer.model.gitminer.Commit;
 import aiss.githubminer.model.gitminer.Issue;
 import aiss.githubminer.model.gitminer.Project;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class Transformer {
 
     public Project githubTransformProject(aiss.githubminer.model.github.project.Project externalModel) {
