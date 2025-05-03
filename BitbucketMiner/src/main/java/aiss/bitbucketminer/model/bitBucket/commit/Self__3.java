@@ -22,7 +22,7 @@ public class Self__3 {
         this.href = href;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Self__3 .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -36,6 +36,13 @@ public class Self__3 {
             sb.append(']');
         }
         return sb.toString();
+    }*/
+
+    @Override
+    public String toString() {
+        return "{\n" +
+                "  \"href\": " + (href != null ? "\"" + href + "\"" : "null") + "\n" +
+                "}";
     }
 
 }

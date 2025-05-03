@@ -22,7 +22,13 @@ public class Html__3 {
         this.href = href;
     }
 
-    @Override
+    public String toString() {
+        return "Html__3 {\n" +
+                "  href: \"" + (href != null ? href : "<null>") + "\"\n" +
+                "}";
+    }
+
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Html__3 .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -36,6 +42,6 @@ public class Html__3 {
             sb.append(']');
         }
         return sb.toString();
-    }
+    }*/
 
 }

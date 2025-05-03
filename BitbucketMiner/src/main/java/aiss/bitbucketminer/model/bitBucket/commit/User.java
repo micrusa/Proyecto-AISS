@@ -81,7 +81,18 @@ public class User {
         this.accountId = accountId;
     }
 
-    @Override
+    public String toString() {
+        return "User {\n" +
+                "  displayName: \"" + (displayName != null ? displayName : "") + "\",\n" +
+                "  uuid: \"" + (uuid != null ? uuid : "") + "\",\n" +
+                "  links: " + (links != null ? links.toString() : "null") + ",\n" +
+                "  type: \"" + (type != null ? type : "") + "\",\n" +
+                "  nickname: \"" + (nickname != null ? nickname : "") + "\",\n" +
+                "  accountId: \"" + (accountId != null ? accountId : "") + "\"\n" +
+                "}";
+    }
+
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(User.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -115,6 +126,6 @@ public class User {
             sb.append(']');
         }
         return sb.toString();
-    }
+    }*/
 
 }

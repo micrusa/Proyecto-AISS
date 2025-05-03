@@ -1,20 +1,23 @@
-package aiss.bitbucketminer.model.bitBucket.commit;
-
+package aiss.bitbucketminer.model.bitBucket.comment;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-
+@JsonPropertyOrder({
+    "self",
+    "html",
+    "code"
+})
 public class Links {
 
     @JsonProperty("self")
     private Self self;
     @JsonProperty("html")
     private Html html;
-    @JsonProperty("avatar")
-    private Avatar avatar;
+    @JsonProperty("code")
+    private Code code;
 
     @JsonProperty("self")
     public Self getSelf() {
@@ -36,21 +39,22 @@ public class Links {
         this.html = html;
     }
 
-    @JsonProperty("avatar")
-    public Avatar getAvatar() {
-        return avatar;
+    @JsonProperty("code")
+    public Code getCode() {
+        return code;
     }
 
-    @JsonProperty("avatar")
-    public void setAvatar(Avatar avatar) {
-        this.avatar = avatar;
+    @JsonProperty("code")
+    public void setCode(Code code) {
+        this.code = code;
     }
 
+    @Override
     public String toString() {
         return "Links {\n" +
-                "  self: \"" + (self != null ? self : "<null>") + "\",\n" +
-                "  html: \"" + (html != null ? html : "<null>") + "\",\n" +
-                "  avatar: \"" + (avatar != null ? avatar : "<null>") + "\"\n" +
+                "  self: " + (self != null ? self.toString() : "null") + ",\n" +
+                "  html: " + (html != null ? html.toString() : "null") + ",\n" +
+                "  code: " + (code != null ? code.toString() : "null") + "\n" +
                 "}";
     }
 
@@ -66,9 +70,9 @@ public class Links {
         sb.append('=');
         sb.append(((this.html == null)?"<null>":this.html));
         sb.append(',');
-        sb.append("avatar");
+        sb.append("code");
         sb.append('=');
-        sb.append(((this.avatar == null)?"<null>":this.avatar));
+        sb.append(((this.code == null)?"<null>":this.code));
         sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');
@@ -76,6 +80,6 @@ public class Links {
             sb.append(']');
         }
         return sb.toString();
-    }*/
-
+    }
+*/
 }

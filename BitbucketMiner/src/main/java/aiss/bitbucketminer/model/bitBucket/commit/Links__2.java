@@ -46,7 +46,7 @@ public class Links__2 {
         this.avatar = avatar;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Links__2 .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -68,6 +68,20 @@ public class Links__2 {
             sb.append(']');
         }
         return sb.toString();
+    }*/
+
+    @Override
+    public String toString() {
+        return "{\n" +
+                "  \"self\": " + indent(self) + ",\n" +
+                "  \"html\": " + indent(html) + "\n" +
+                "}";
     }
 
+    private String indent(Object obj) {
+        if (obj == null) return "null";
+        String str = obj.toString();
+        return str.replaceAll("(?m)^", "    ");
+    }
 }
+

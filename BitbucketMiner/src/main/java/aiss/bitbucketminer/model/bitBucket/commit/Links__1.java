@@ -93,7 +93,19 @@ public class Links__1 {
         this.statuses = statuses;
     }
 
-    @Override
+    public String toString() {
+        return "Links__1 {\n" +
+                "  self: \"" + (self != null ? self : "<null>") + "\",\n" +
+                "  comments: \"" + (comments != null ? comments : "<null>") + "\",\n" +
+                "  patch: \"" + (patch != null ? patch : "<null>") + "\",\n" +
+                "  html: \"" + (html != null ? html : "<null>") + "\",\n" +
+                "  diff: \"" + (diff != null ? diff : "<null>") + "\",\n" +
+                "  approve: \"" + (approve != null ? approve : "<null>") + "\",\n" +
+                "  statuses: \"" + (statuses != null ? statuses : "<null>") + "\"\n" +
+                "}";
+    }
+
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Links__1 .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -131,6 +143,6 @@ public class Links__1 {
             sb.append(']');
         }
         return sb.toString();
-    }
+    }*/
 
 }

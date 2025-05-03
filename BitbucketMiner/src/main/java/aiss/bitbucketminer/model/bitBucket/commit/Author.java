@@ -45,7 +45,7 @@ public class Author {
         this.user = user;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Author.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -67,6 +67,16 @@ public class Author {
             sb.append(']');
         }
         return sb.toString();
+    }*/
+
+
+    @Override
+    public String toString() {
+        return "{\n" +
+                "  \"raw\": \"" + (raw != null ? raw : "null") + "\",\n" +
+                "  \"type\": \"" + (type != null ? type : "null") + "\",\n" +
+                "  \"user\": " + (user != null ? user.toString() : "null") + "\n" +
+                "}";
     }
 
 }

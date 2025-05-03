@@ -34,7 +34,7 @@ public class Links__3 {
         this.html = html;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Links__3 .class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -52,6 +52,14 @@ public class Links__3 {
             sb.append(']');
         }
         return sb.toString();
+    }*/
+
+    @Override
+    public String toString() {
+        return "{\n" +
+                "  \"self\": " + (self != null ? self.toString() : "null") + ",\n" +
+                "  \"html\": " + (html != null ? html.toString() : "null") + "\n" +
+                "}";
     }
 
 }

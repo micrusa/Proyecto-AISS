@@ -143,7 +143,22 @@ public class Commit {
         this.type = type;
     }
 
-    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\n");
+        sb.append("  \"type\": \"").append(type != null ? type : "<null>").append("\",\n");
+        sb.append("  \"hash\": \"").append(hash != null ? hash : "<null>").append("\",\n");
+        sb.append("  \"date\": \"").append(date != null ? date : "<null>").append("\",\n");
+        sb.append("  \"author\": ").append(author != null ? author.toString() : "null").append(",\n");
+        sb.append("  \"committer\": ").append(participants != null ? participants.toString() : "null").append(",\n");
+        sb.append("  \"message\": \"").append(message != null ? message : "<null>").append("\",\n");
+        sb.append("  \"summary\": ").append(summary != null ? summary.toString() : "null").append(",\n");
+        sb.append("  \"parents\": ").append(parents != null ? parents.toString() : "[]").append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("    {\n");
@@ -158,6 +173,6 @@ public class Commit {
         sb.append("    }");
         return sb.toString();
     }
-
+*/
 
 }

@@ -21,7 +21,7 @@ public class Commit {
         this.type = type;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Commit.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -35,6 +35,13 @@ public class Commit {
             sb.append(']');
         }
         return sb.toString();
+    }*/
+
+    @Override
+    public String toString() {
+        return "{\n" +
+                "  \"type\": \"" + (type != null ? type : "null") + "\"\n" +
+                "}";
     }
 
 }

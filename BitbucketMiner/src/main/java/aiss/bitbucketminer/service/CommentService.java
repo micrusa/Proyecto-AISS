@@ -3,7 +3,6 @@ package aiss.bitbucketminer.service;
 
 import aiss.bitbucketminer.model.bitBucket.comment.Comment;
 import aiss.bitbucketminer.model.bitBucket.comment.CommentContainer;
-import aiss.bitbucketminer.model.bitBucket.commit.CommitContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
