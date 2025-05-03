@@ -148,12 +148,16 @@ public class Transformer {
 
         String id = String.valueOf(externalModel.getId());
         user.setId(id);
+
         String username = externalModel.getLogin();
         user.setUsername(username);
+
         String name = externalModel.getLogin();
         user.setName(name);
+
         String avatarUrl = externalModel.getAvatarUrl();
         user.setAvatarUrl(avatarUrl);
+
         String webUrl = externalModel.getHtmlUrl();
         user.setWebUrl(webUrl);
 
