@@ -146,57 +146,18 @@ public class Commit {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Commit.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("rendered");
-        sb.append('=');
-        sb.append(((this.rendered == null)?"<null>":this.rendered));
-        sb.append(',');
-        sb.append("hash");
-        sb.append('=');
-        sb.append(((this.hash == null)?"<null>":this.hash));
-        sb.append(',');
-        sb.append("repository");
-        sb.append('=');
-        sb.append(((this.repository == null)?"<null>":this.repository));
-        sb.append(',');
-        sb.append("links");
-        sb.append('=');
-        sb.append(((this.links == null)?"<null>":this.links));
-        sb.append(',');
-        sb.append("author");
-        sb.append('=');
-        sb.append(((this.author == null)?"<null>":this.author));
-        sb.append(',');
-        sb.append("summary");
-        sb.append('=');
-        sb.append(((this.summary == null)?"<null>":this.summary));
-        sb.append(',');
-        sb.append("participants");
-        sb.append('=');
-        sb.append(((this.participants == null)?"<null>":this.participants));
-        sb.append(',');
-        sb.append("parents");
-        sb.append('=');
-        sb.append(((this.parents == null)?"<null>":this.parents));
-        sb.append(',');
-        sb.append("date");
-        sb.append('=');
-        sb.append(((this.date == null)?"<null>":this.date));
-        sb.append(',');
-        sb.append("message");
-        sb.append('=');
-        sb.append(((this.message == null)?"<null>":this.message));
-        sb.append(',');
-        sb.append("type");
-        sb.append('=');
-        sb.append(((this.type == null)?"<null>":this.type));
-        sb.append(',');
-        if (sb.charAt((sb.length()- 1)) == ',') {
-            sb.setCharAt((sb.length()- 1), ']');
-        } else {
-            sb.append(']');
-        }
+        sb.append("    {\n");
+        sb.append("      \"type\": \"").append(type).append("\",\n");
+        sb.append("      \"hash\": \"").append(hash).append("\",\n");
+        sb.append("      \"date\": \"").append(date).append("\",\n");
+        sb.append("      \"author\": ").append(author != null ? author.toString() : "null").append(",\n");
+        sb.append("      \"committer\": ").append(participants != null ? participants.toString() : "null").append(",\n");
+        sb.append("      \"message\": \"").append(message).append("\",\n");
+        sb.append("      \"summary\": ").append(summary != null ? summary.toString() : "null").append(",\n");
+        sb.append("      \"parents\": ").append(parents != null ? parents.toString() : "[]").append("\n");
+        sb.append("    }");
         return sb.toString();
     }
+
 
 }
