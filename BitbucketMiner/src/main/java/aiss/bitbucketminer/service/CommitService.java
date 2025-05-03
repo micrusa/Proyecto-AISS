@@ -1,5 +1,6 @@
 package aiss.bitbucketminer.service;
 
+import aiss.bitbucketminer.exception.CommitNotFoundException;
 import aiss.bitbucketminer.model.bitBucket.commit.Commit;
 import aiss.bitbucketminer.model.bitBucket.commit.CommitContainer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,13 @@ public class CommitService {
     @Autowired
     BitbucketService bitbucketService;
 
-    public Commit getCommit(String workspace, String repo_slug, String commit) {
+    public Commit getCommit(String workspace, String repo_slug, String commit) throws CommitNotFoundException {
         String uri = "repositories/" + workspace + "/" + repo_slug + "/commits/" + commit;
-        return bitbucketService.getForAuthenticated(uri, Commit.class);
+        Commit result = bitbucketService.getForAuthenticated(uri, Commit.class);
+        if (result == null) {
+            throw new CommitNotFoundException();
+        }
+        return result;
     }
 
     public List<Commit> getCommits(String workspace, String repo_slug) {
