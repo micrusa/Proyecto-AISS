@@ -18,6 +18,7 @@ class CommentServiceTest {
     @Autowired
     CommentService commentService;
 
+    /*"85c93c7f99da23fca2fa1a8fcb0219e805cb2c81"*/
     @Test
     @DisplayName("Get commit's Comments")
     void getComments() {
@@ -27,9 +28,10 @@ class CommentServiceTest {
         System.out.println(comments);
     }
 
+
     @Test
     void getComment() {
-        Comment comment = commentService.getComment("migboibor", "prueba2", "85c93c7", "");
+        Comment comment = commentService.getComment("migboibor", "prueba2", "85c93c7f99da23fca2fa1a8fcb0219e805cb2c81", "");
         assertNotNull(comment);
         System.out.println(comment);
     }

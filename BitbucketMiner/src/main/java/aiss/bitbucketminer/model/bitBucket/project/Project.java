@@ -142,7 +142,40 @@ public class Project {
         this.hasPubliclyVisibleRepos = hasPubliclyVisibleRepos;
     }
 
+
+
     @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\n");
+        sb.append("  \"type\": ").append(type).append(",\n");
+        sb.append("  \"links\": {\n");
+        sb.append("    \"html\": {\n");
+        sb.append("      \"href\": ").append(links != null && links.getHtml() != null ? links.getHtml().getHref() : null).append(",\n");
+        sb.append("      \"name\": ").append(links != null && links.getHtml() != null ? links.getHtml().getName() : null).append("\n");
+        sb.append("    },\n");
+        sb.append("    \"avatar\": {\n");
+        sb.append("      \"href\": ").append(links != null && links.getAvatar() != null ? links.getAvatar().getHref() : null).append(",\n");
+        sb.append("      \"name\": ").append(links != null && links.getAvatar() != null ? links.getAvatar().getName() : null).append("\n");
+        sb.append("    }\n");
+        sb.append("  },\n");
+        sb.append("  \"uuid\": ").append(uuid).append(",\n");
+        sb.append("  \"key\": ").append(key).append(",\n");
+        sb.append("  \"owner\": {\n");
+        sb.append("    \"type\": ").append(owner != null ? owner.getType() : null).append("\n");
+        sb.append("  },\n");
+        sb.append("  \"name\": ").append(name).append(",\n");
+        sb.append("  \"description\": ").append(description == null ? "" : description).append(",\n");
+        sb.append("  \"is_private\": ").append(isPrivate != null ? isPrivate : "null").append(",\n");
+        sb.append("  \"created_on\": ").append(createdOn).append(",\n");
+        sb.append("  \"updated_on\": ").append(updatedOn).append(",\n");
+        sb.append("  \"has_publicly_visible_repos\": ").append(hasPubliclyVisibleRepos != null ? hasPubliclyVisibleRepos : "null").append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+
+   /* @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Project.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -196,6 +229,6 @@ public class Project {
             sb.append(']');
         }
         return sb.toString();
-    }
+    }*/
 
 }

@@ -34,7 +34,7 @@ public class Links {
         this.avatar = avatar;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Links.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -52,6 +52,12 @@ public class Links {
             sb.append(']');
         }
         return sb.toString();
+    }*/
+    public String toString() {
+        return "Links{" +
+                "html=" + (html != null ? html.getHref() : "null") +
+                ", avatar=" + (avatar != null ? avatar.getHref() : "null") +
+                '}';
     }
 
 }
