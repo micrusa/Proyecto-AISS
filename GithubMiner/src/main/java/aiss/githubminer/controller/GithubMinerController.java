@@ -55,13 +55,13 @@ public class GithubMinerController {
             @RequestParam(value = "sinceIssues", defaultValue = "20") int sinceIssues,
             @RequestParam(value = "maxPages", defaultValue = "2") int maxPages
     ) {
-        // 1. Obtener datos de GitHub usando los servicios
+        //  Obtener datos de GitHub usando los servicios
         List<Commit> commits = commitService.getCommits(owner, repoName, sinceCommits, maxPages);
         List<Issue> issues = issueService.getAllIssues(owner, repoName, sinceIssues, maxPages);
         List<Comment> comments = commentService.getComments(owner, repoName);
         Project githubProject = projectService.getProject(owner, repoName);
 
-        // 2. Transformar los datos a modelos de GitMiner
+        //  Transformar los datos a modelos de GitMiner
         aiss.githubminer.model.gitminer.Project gitMinerProject = transformer.githubTransformProject(githubProject);
         List<aiss.githubminer.model.gitminer.Commit> gitMinerCommits = commits.stream()
                 .map(transformer::githubTransformCommit)
@@ -73,19 +73,19 @@ public class GithubMinerController {
                 .map(transformer::githubTransformComment)
                 .collect(java.util.stream.Collectors.toList());
 
-        // 3. Enviar los datos a GitMiner (usando RestTemplate para interactuar con la API de GitMiner)
+        //  Enviar los datos a GitMiner (usando RestTemplate para interactuar con la API de GitMiner)
         sendToGitMiner(gitMinerProject, "/projects");
         gitMinerCommits.forEach(commit -> sendToGitMiner(commit, "/commits"));
         gitMinerIssues.forEach(issue -> sendToGitMiner(issue, "/issues"));
         gitMinerComments.forEach(comment -> sendToGitMiner(comment, "/comments"));
     }
     private <T> void sendToGitMiner(T data, String endpoint) {
-        // Se prepara el encabezado para enviar los datos en formato JSON
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
         HttpEntity<T> request = new HttpEntity<>(data, headers);
 
-        // Se hace la petición POST a la API de GitMiner
+
         ResponseEntity<String> response = restTemplate.exchange(
                 gitMinerUri + endpoint,
                 HttpMethod.POST,
@@ -93,7 +93,7 @@ public class GithubMinerController {
                 String.class
         );
 
-        // Verifica la respuesta
+
         if (!response.getStatusCode().is2xxSuccessful()) {
             throw new RuntimeException("Error enviando datos a GitMiner: " + response.getStatusCode());
         }
