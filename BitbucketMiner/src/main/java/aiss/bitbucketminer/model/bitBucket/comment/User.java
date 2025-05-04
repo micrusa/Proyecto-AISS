@@ -1,6 +1,7 @@
 package aiss.bitbucketminer.model.bitBucket.comment;
 
 
+import aiss.bitbucketminer.model.bitBucket.commit.Links__2;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -10,8 +11,48 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 public class User {
 
+    @JsonProperty("display_name")
+    private String displayName;
+    @JsonProperty("uuid")
+    private String uuid;
+    @JsonProperty("links")
+    private Links__2 links;
     @JsonProperty("type")
     private String type;
+    @JsonProperty("nickname")
+    private String nickname;
+    @JsonProperty("account_id")
+    private String accountId;
+
+    @JsonProperty("display_name")
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    @JsonProperty("display_name")
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    @JsonProperty("uuid")
+    public String getUuid() {
+        return uuid;
+    }
+
+    @JsonProperty("uuid")
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    @JsonProperty("links")
+    public Links__2 getLinks() {
+        return links;
+    }
+
+    @JsonProperty("links")
+    public void setLinks(Links__2 links) {
+        this.links = links;
+    }
 
     @JsonProperty("type")
     public String getType() {
@@ -23,12 +64,35 @@ public class User {
         this.type = type;
     }
 
-    @Override
+    @JsonProperty("nickname")
+    public String getNickname() {
+        return nickname;
+    }
+
+    @JsonProperty("nickname")
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    @JsonProperty("account_id")
+    public String getAccountId() {
+        return accountId;
+    }
+
+    @JsonProperty("account_id")
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
     public String toString() {
-        return String.format(
-                "User {\n  type: \"%s\"\n}",
-                type != null ? type : ""
-        );
+        return "User {\n" +
+                "  displayName: \"" + (displayName != null ? displayName : "") + "\",\n" +
+                "  uuid: \"" + (uuid != null ? uuid : "") + "\",\n" +
+                "  links: " + (links != null ? links.toString() : "null") + ",\n" +
+                "  type: \"" + (type != null ? type : "") + "\",\n" +
+                "  nickname: \"" + (nickname != null ? nickname : "") + "\",\n" +
+                "  accountId: \"" + (accountId != null ? accountId : "") + "\"\n" +
+                "}";
     }
 
    /* @Override
