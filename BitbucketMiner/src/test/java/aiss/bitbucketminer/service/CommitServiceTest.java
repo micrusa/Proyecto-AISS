@@ -42,7 +42,7 @@ class CommitServiceTest {
     @Test
     @DisplayName("Get commits")
     void getCommits() {
-        List<Commit> commits = commitService.getCommits("migboibor", "prueba2");
+        List<Commit> commits = commitService.getCommits("migboibor", "prueba2", 5, 2);
         assertNotNull(commits);
         assertFalse(commits.isEmpty());
         System.out.println(commits);

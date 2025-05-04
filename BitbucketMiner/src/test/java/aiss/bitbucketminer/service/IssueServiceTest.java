@@ -20,7 +20,7 @@ class IssueServiceTest {
 
     @Test
     void getAllIssues() {
-        List<Issue> issues = issueService.getAllIssues("migboibor", "prueba2");
+        List<Issue> issues = issueService.getAllIssues("migboibor", "prueba2", 5, 2);
         assertNotNull(issues);
         System.out.println(issues);
     }
