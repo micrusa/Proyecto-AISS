@@ -1,6 +1,7 @@
 package aiss.bitbucketminer.etl;
 
 
+import aiss.bitbucketminer.model.bitBucket.commit.Participants;
 import aiss.bitbucketminer.model.gitMiner.*;
 
 import aiss.bitbucketminer.service.ProjectService;
@@ -57,9 +58,21 @@ public class Transformer {
 
 
 
-        String committerName;
-        String committerEmail;
-        String committedDate;
+
+
+/*        if (externalModel.getParticipants() != null && !externalModel.getParticipants().isEmpty()) {
+            for (Participants participant : externalModel.getParticipants()) {
+                if (participant.getRole().equals("committer")) {
+                    String committerName = participant.getUser().getDisplayName();
+                    commit.setCommitterName(committerName);
+                    String committerEmail = participant.getUser().getRaw()
+                            .replace("${committerName} <", "")
+                            .replace(">", "");
+                    commit.setCommitterEmail(committerEmail);
+                }
+            }
+        }*/
+
 
         String webUrl = externalModel.getLinks().getHtml().getHref();
 

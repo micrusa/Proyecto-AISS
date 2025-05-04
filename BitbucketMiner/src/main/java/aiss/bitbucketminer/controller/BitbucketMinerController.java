@@ -72,7 +72,6 @@ public class BitbucketMinerController {
         List<aiss.bitbucketminer.model.gitMiner.Issue> gitMinerIssues = issues.stream()
                 .map(transformer::bitbucketTransformIssue)
                 .collect(Collectors.toList());
-
         List<aiss.bitbucketminer.model.gitMiner.Comment> gitMinerComments = comments.stream()
                 .map(transformer::bitbucketTransformComment)
                 .collect(Collectors.toList());

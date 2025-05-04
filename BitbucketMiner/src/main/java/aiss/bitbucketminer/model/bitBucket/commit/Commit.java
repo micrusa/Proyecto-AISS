@@ -23,7 +23,7 @@ public class Commit {
     @JsonProperty("summary")
     private Summary summary;
     @JsonProperty("participants")
-    private List<Object> participants;
+    private List<Participants> participants;
     @JsonProperty("parents")
     private List<Parent> parents;
     @JsonProperty("date")
@@ -94,12 +94,12 @@ public class Commit {
     }
 
     @JsonProperty("participants")
-    public List<Object> getParticipants() {
+    public List<Participants> getParticipants() {
         return participants;
     }
 
     @JsonProperty("participants")
-    public void setParticipants(List<Object> participants) {
+    public void setParticipants(List<Participants> participants) {
         this.participants = participants;
     }
 
