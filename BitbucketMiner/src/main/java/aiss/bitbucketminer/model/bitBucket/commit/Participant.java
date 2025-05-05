@@ -1,13 +1,11 @@
 package aiss.bitbucketminer.model.bitBucket.commit;
 
-import aiss.bitbucketminer.model.bitBucket.commit.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
-public class Participants {
+public class Participant {
 
     @JsonProperty("user")
     private User user;

@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
@@ -23,7 +22,7 @@ public class Commit {
     @JsonProperty("summary")
     private Summary summary;
     @JsonProperty("participants")
-    private List<Participants> participants;
+    private List<Participant> participants;
     @JsonProperty("parents")
     private List<Parent> parents;
     @JsonProperty("date")
@@ -94,12 +93,12 @@ public class Commit {
     }
 
     @JsonProperty("participants")
-    public List<Participants> getParticipants() {
+    public List<Participant> getParticipants() {
         return participants;
     }
 
     @JsonProperty("participants")
-    public void setParticipants(List<Participants> participants) {
+    public void setParticipants(List<Participant> participants) {
         this.participants = participants;
     }
 
@@ -150,7 +149,7 @@ public class Commit {
         sb.append("  \"hash\": \"").append(hash != null ? hash : "<null>").append("\",\n");
         sb.append("  \"date\": \"").append(date != null ? date : "<null>").append("\",\n");
         sb.append("  \"author\": ").append(author != null ? author.toString() : "null").append(",\n");
-        sb.append("  \"committer\": ").append(participants != null ? participants.toString() : "null").append(",\n");
+        sb.append("  \"participants\": ").append(participants != null ? participants.toString() : "null").append(",\n");
         sb.append("  \"message\": \"").append(message != null ? message : "<null>").append("\",\n");
         sb.append("  \"summary\": ").append(summary != null ? summary.toString() : "null").append(",\n");
         sb.append("  \"parents\": ").append(parents != null ? parents.toString() : "[]").append("\n");

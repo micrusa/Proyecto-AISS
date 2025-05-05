@@ -69,9 +69,9 @@ public class BitbucketMinerController {
                 .map(transformer::bitbucketTransformCommit)
                 .collect(Collectors.toList());
 
-        List<aiss.bitbucketminer.model.gitMiner.Issue> gitMinerIssues = issues.stream()
+       /* List<aiss.bitbucketminer.model.gitMiner.Issue> gitMinerIssues = issues.stream()
                 .map(transformer::bitbucketTransformIssue)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
         List<aiss.bitbucketminer.model.gitMiner.Comment> gitMinerComments = comments.stream()
                 .map(transformer::bitbucketTransformComment)
                 .collect(Collectors.toList());
@@ -79,7 +79,7 @@ public class BitbucketMinerController {
         // Enviar datos transformados a GitMiner
         sendToGitMiner(gitMinerProject, "/projects");
         gitMinerCommits.forEach(commit -> sendToGitMiner(commit, "/commits"));
-        gitMinerIssues.forEach(issue -> sendToGitMiner(issue, "/issues"));
+        /*gitMinerIssues.forEach(issue -> sendToGitMiner(issue, "/issues"));*/
         gitMinerComments.forEach(comment -> sendToGitMiner(comment, "/comments"));
     }
 

@@ -1,14 +1,13 @@
 package aiss.bitbucketminer.etl;
 
 
-import aiss.bitbucketminer.model.bitBucket.commit.Participants;
+import aiss.bitbucketminer.model.bitBucket.commit.Participant;
+
 import aiss.bitbucketminer.model.gitMiner.*;
 
-import aiss.bitbucketminer.service.ProjectService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -60,18 +59,22 @@ public class Transformer {
 
 
 
-/*        if (externalModel.getParticipants() != null && !externalModel.getParticipants().isEmpty()) {
-            for (Participants participant : externalModel.getParticipants()) {
+        if (externalModel.getParticipants() != null && !externalModel.getParticipants().isEmpty()) {
+            for (Participant participant : externalModel.getParticipants()) {
                 if (participant.getRole().equals("committer")) {
                     String committerName = participant.getUser().getDisplayName();
                     commit.setCommitterName(committerName);
-                    String committerEmail = participant.getUser().getRaw()
-                            .replace("${committerName} <", "")
-                            .replace(">", "");
+                    String committerEmail = participant.getUser().getNickname();
                     commit.setCommitterEmail(committerEmail);
+                    String committedDate = externalModel.getDate();
+                    commit.setCommittedDate(committedDate);
                 }
             }
-        }*/
+        } else {
+            commit.setCommitterName(authorName);
+            commit.setCommitterEmail(authorEmail);
+            commit.setCommittedDate(authoredDate);
+        }
 
 
         String webUrl = externalModel.getLinks().getHtml().getHref();
@@ -109,6 +112,39 @@ public class Transformer {
         return comment;
     }
 
+
+    /*public Issue bitbucketTransformIssue(aiss.bitbucketminer.model.bitBucket.issue.Issue externalModel) {
+        Issue issue = new Issue();
+
+        String id = externalModel.getId().toString();
+        issue.setId(id);
+
+        String refId = externalModel.getLinks().getHtml().getHref();
+        issue.setRefId(refId);
+
+        String title = externalModel.getTitle();
+        issue.setTitle(title);
+
+        String description = externalModel.getContent().toString();
+        issue.setDescription(description);
+
+        String state = externalModel.getState();
+        issue.setState(state);
+
+        String createdAt = externalModel.getCreatedOn();
+        issue.setCreatedAt(createdAt);
+
+        String updatedAt = externalModel.getEditedOn();
+        issue.setUpdatedAt(updatedAt);
+
+        String closedAt = externalModel.getUpdatedOn();
+        issue.setClosedAt(closedAt);
+
+        User author = externalModel.getAuthor();
+
+        return issue;
+    }*/
+
     // Métodos para transformar listas
     public List<Commit> bitbucketTransformCommits(List<aiss.bitbucketminer.model.bitBucket.commit.Commit> externalModels) {
         return externalModels.stream()
@@ -121,5 +157,6 @@ public class Transformer {
                 .map(this::bitbucketTransformComment)
                 .collect(Collectors.toList());
     }
+
 
 }
