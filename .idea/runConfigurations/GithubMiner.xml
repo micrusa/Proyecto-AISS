@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="GithubMiner" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="aiss.githubminer.util.GithubminerApplication" />
+    <option name="MAIN_CLASS_NAME" value="aiss.githubminer.GithubminerApplication" />
     <module name="githubminer" />
     <method v="2">
       <option name="Make" enabled="true" />

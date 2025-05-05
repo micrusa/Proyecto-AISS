@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Component
 public class Transformer {
 
-    public Project githubTransformProject(aiss.githubminer.model.github.project.Project externalModel) {
+    public Project transformProject(aiss.githubminer.model.github.project.Project externalModel) {
         Project project = new Project();
 
         String id = String.valueOf(externalModel.getId());
@@ -29,7 +29,7 @@ public class Transformer {
         return project;
     }
 
-    public Commit githubTransformCommit(aiss.githubminer.model.github.commit.Commit externalModel) {
+    public Commit transformCommit(aiss.githubminer.model.github.commit.Commit externalModel) {
         Commit commit = new Commit();
 
         String id = String.valueOf(externalModel.getSha());
@@ -66,7 +66,7 @@ public class Transformer {
         return commit;
     }
 
-    public Comment githubTransformComment(aiss.githubminer.model.github.comment.Comment externalModel) {
+    public Comment transformComment(aiss.githubminer.model.github.comment.Comment externalModel) {
         Comment comment = new Comment();
 
         String id = String.valueOf(externalModel.getId());
@@ -90,7 +90,7 @@ public class Transformer {
         return comment;
     }
 
-    public Issue githubTransformIssue(aiss.githubminer.model.github.issue.Issue externalModel) {
+    public Issue transformIssue(aiss.githubminer.model.github.issue.Issue externalModel) {
         Issue issue = new Issue();
 
         String id = String.valueOf(externalModel.getId());
@@ -145,7 +145,7 @@ public class Transformer {
         return issue;
     }
 
-    public aiss.githubminer.model.gitminer.User githubTransformUser(aiss.githubminer.model.github.user.User externalModel) {
+    public aiss.githubminer.model.gitminer.User transformUser(aiss.githubminer.model.github.user.User externalModel) {
         aiss.githubminer.model.gitminer.User user = new aiss.githubminer.model.gitminer.User();
 
         String id = String.valueOf(externalModel.getId());

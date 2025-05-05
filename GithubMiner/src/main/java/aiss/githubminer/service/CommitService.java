@@ -3,10 +3,8 @@ package aiss.githubminer.service;
 import aiss.githubminer.model.github.commit.Commit;
 import aiss.githubminer.utils.GithubUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -26,10 +24,10 @@ public class CommitService {
         String sinceParam = sinceDate.format(DateTimeFormatter.ISO_DATE_TIME);
 
         int page = 1;
-        String currentUri = String.format("%s/%s/commits?since=%s&page=%d", owner, repo, sinceParam, 1);
+        String currentUri = String.format("%s/%s/%s/commits?since=%s&page=%d", githubService.baseuri, owner, repo, sinceParam, 1);
 
         while (page++ <= maxPages && currentUri != null) {
-            ResponseEntity<Commit[]> response = githubService.getAuthenticated(currentUri, Commit[].class);
+            ResponseEntity<Commit[]> response = githubService.getAuthenticatedFullUri(currentUri, Commit[].class);
             Commit[] commits = response.getBody();
             if (commits == null || commits.length == 0) {
                 break;

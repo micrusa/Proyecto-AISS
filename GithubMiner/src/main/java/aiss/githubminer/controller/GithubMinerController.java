@@ -5,25 +5,17 @@ import aiss.githubminer.model.github.project.Project;
 import aiss.githubminer.model.github.comment.Comment;
 import aiss.githubminer.model.github.commit.Commit;
 import aiss.githubminer.model.github.issue.Issue;
-import aiss.githubminer.service.CommentService;
-import aiss.githubminer.service.CommitService;
-import aiss.githubminer.service.IssueService;
-import aiss.githubminer.service.ProjectService;
+import aiss.githubminer.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/githubminer")
+@RequestMapping("/github")
 public class GithubMinerController {
 
     @Autowired
@@ -42,10 +34,7 @@ public class GithubMinerController {
     private Transformer transformer;
 
     @Autowired
-    private RestTemplate restTemplate;
-
-    @Value("${gitminer.baseuri}")
-    private String gitMinerUri;
+    private GitMinerService gitMinerService;
 
     @PostMapping("/{owner}/{repoName}")
     public void processGithubData(
@@ -62,41 +51,22 @@ public class GithubMinerController {
         Project githubProject = projectService.getProject(owner, repoName);
 
         //  Transformar los datos a modelos de GitMiner
-        aiss.githubminer.model.gitminer.Project gitMinerProject = transformer.githubTransformProject(githubProject);
+        aiss.githubminer.model.gitminer.Project gitMinerProject = transformer.transformProject(githubProject);
         List<aiss.githubminer.model.gitminer.Commit> gitMinerCommits = commits.stream()
-                .map(transformer::githubTransformCommit)
+                .map(transformer::transformCommit)
                 .collect(java.util.stream.Collectors.toList());
         List<aiss.githubminer.model.gitminer.Issue> gitMinerIssues = issues.stream()
-                .map(transformer::githubTransformIssue)
+                .map(transformer::transformIssue)
                 .collect(java.util.stream.Collectors.toList());
+
+        gitMinerProject.setCommits(gitMinerCommits);
+        gitMinerProject.setIssues(gitMinerIssues);
+
         List<aiss.githubminer.model.gitminer.Comment> gitMinerComments = comments.stream()
-                .map(transformer::githubTransformComment)
-                .collect(java.util.stream.Collectors.toList());
+                .map(transformer::transformComment)
+                .toList(); // TODO: Arreglar los comments, no hay que coger los comments del repositorio sino de cada issue y asociarlo
 
-        //  Enviar los datos a GitMiner (usando RestTemplate para interactuar con la API de GitMiner)
-        sendToGitMiner(gitMinerProject, "/projects");
-        gitMinerCommits.forEach(commit -> sendToGitMiner(commit, "/commits"));
-        gitMinerIssues.forEach(issue -> sendToGitMiner(issue, "/issues"));
-        gitMinerComments.forEach(comment -> sendToGitMiner(comment, "/comments"));
-    }
-    private <T> void sendToGitMiner(T data, String endpoint) {
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
-        HttpEntity<T> request = new HttpEntity<>(data, headers);
-
-
-        ResponseEntity<String> response = restTemplate.exchange(
-                gitMinerUri + endpoint,
-                HttpMethod.POST,
-                request,
-                String.class
-        );
-
-
-        if (!response.getStatusCode().is2xxSuccessful()) {
-            throw new RuntimeException("Error enviando datos a GitMiner: " + response.getStatusCode());
-        }
+        gitMinerService.createProject(gitMinerProject);
     }
 
     @GetMapping("/{owner}/{repoName}")

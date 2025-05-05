@@ -3,11 +3,8 @@ package aiss.githubminer.service;
 import aiss.githubminer.model.github.issue.Issue;
 import aiss.githubminer.utils.GithubUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -27,11 +24,11 @@ public class IssueService {
         String sinceParam = sinceDate.format(DateTimeFormatter.ISO_DATE_TIME);
 
         int page = 1;
-        String currentUri = String.format("%s/%s/issues?since=%s&page=%d",
-                owner, repo, sinceParam, page);
+        String currentUri = String.format("%s/%s/%s/issues?since=%s&page=%d",
+                githubService.baseuri, owner, repo, sinceParam, page);
 
         while (page++ <= maxPages && currentUri != null) {
-            ResponseEntity<Issue[]> response = githubService.getAuthenticated(currentUri, Issue[].class);
+            ResponseEntity<Issue[]> response = githubService.getAuthenticatedFullUri(currentUri, Issue[].class);
             Issue[] issues = response.getBody();
 
             if (issues == null || issues.length == 0) {
@@ -39,7 +36,8 @@ public class IssueService {
             }
 
             allIssues.addAll(Arrays.asList(issues));
-            currentUri = GithubUtils.getNextPageUrl(response.getHeaders());
+            currentUri = GithubUtils.getNextPageUrl(response.getHeaders()) == null ? null : String.format("%s/%s/%s/issues?since=%s&page=%d",
+                    githubService.baseuri, owner, repo, sinceParam, page);
         }
 
         return allIssues;

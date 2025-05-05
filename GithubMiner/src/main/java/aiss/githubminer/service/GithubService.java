@@ -20,10 +20,13 @@ public class GithubService {
     public String token;
 
     public <T> ResponseEntity<T> getAuthenticated(String githubUri, Class<T> responseType) {
+        return getAuthenticatedFullUri(baseuri + githubUri, responseType);
+    }
+
+    public <T> ResponseEntity<T> getAuthenticatedFullUri(String uri, Class<T> responseType) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
         HttpEntity<T> requestEntity = new HttpEntity<>(null, headers);
-        String uri = baseuri + githubUri;
         return restTemplate.exchange(uri, org.springframework.http.HttpMethod.GET, requestEntity, responseType);
     }
 
