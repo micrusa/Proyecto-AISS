@@ -31,13 +31,13 @@ public class Commit {
     @NotEmpty(message = "Author date cannot be empty.")
     private String authoredDate;
     @JsonProperty("committer_name")
-    @NotEmpty(message = "Committer name cannot be empty.")
+    //@NotEmpty(message = "Committer name cannot be empty.")
     private String committerName;
     @JsonProperty("committer_email")
     private String committerEmail;
 
     @JsonProperty("committed_date")
-    @NotEmpty(message = "Committer date cannot be empty.")
+    //@NotEmpty(message = "Committer date cannot be empty.")
     private String committedDate;
 
     @JsonProperty("web_url")
