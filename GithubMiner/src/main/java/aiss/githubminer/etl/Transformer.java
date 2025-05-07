@@ -81,11 +81,16 @@ public class Transformer {
         String updatedAt = externalModel.getUpdatedAt();
         comment.setUpdatedAt(updatedAt);
 
+        String issueUrl = externalModel.getIssueUrl();
+        comment.setIssueUrl(issueUrl);
+
         User user = externalModel.getUser();
         aiss.githubminer.model.gitminer.User author = new aiss.githubminer.model.gitminer.User();
         author.setName(user.getLogin());
 
+
         comment.setAuthor(author);
+
 
         return comment;
     }

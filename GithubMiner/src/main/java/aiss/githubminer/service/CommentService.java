@@ -14,7 +14,7 @@ public class CommentService {
     @Autowired
     GithubService githubService;
 
-    public List<Comment> getComments(String owner, String repo) {
+    public List<Comment> getComments(String owner, String repo, Integer number) {
         String uri = owner + "/" + repo + "/comments";
         Comment[] comments = githubService.getAuthenticated(uri, Comment[].class).getBody();
         return List.of(comments);

@@ -16,6 +16,8 @@ public class Comment {
     private String createdAt;
     @JsonProperty("updated_at")
     private String updatedAt;
+    @JsonProperty("issue_url")
+    private String issueUrl;
 
     public String getId() {
         return id;
@@ -57,6 +59,10 @@ public class Comment {
         this.updatedAt = updatedAt;
     }
 
+    public String getIssueUrl() { return issueUrl; }
+
+    public void setIssueUrl(String issueUrl) { this.issueUrl = issueUrl; }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -80,6 +86,10 @@ public class Comment {
         sb.append("updatedAt");
         sb.append('=');
         sb.append(((this.updatedAt == null) ? "<null>" : this.updatedAt));
+        sb.append(',');
+        sb.append("issueUrl");
+        sb.append('=');
+        sb.append(((this.issueUrl == null) ? "<null>" : this.issueUrl));
         sb.append(',');
         if (sb.charAt((sb.length() - 1)) == ',') {
             sb.setCharAt((sb.length() - 1), ']');

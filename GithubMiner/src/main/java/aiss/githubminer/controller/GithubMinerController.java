@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/github")
@@ -47,7 +48,9 @@ public class GithubMinerController {
         //  Obtener datos de GitHub usando los servicios
         List<Commit> commits = commitService.getCommits(owner, repoName, sinceCommits, maxPages);
         List<Issue> issues = issueService.getAllIssues(owner, repoName, sinceIssues, maxPages);
-        List<Comment> comments = commentService.getComments(owner, repoName);
+        List<Comment> comments = issues.stream()
+                .flatMap(issue -> commentService.getComments(owner, repoName, issue.getNumber()).stream())
+                .toList();
         Project githubProject = projectService.getProject(owner, repoName);
 
         //  Transformar los datos a modelos de GitMiner
@@ -59,12 +62,27 @@ public class GithubMinerController {
                 .map(transformer::transformIssue)
                 .collect(java.util.stream.Collectors.toList());
 
+        List<aiss.githubminer.model.gitminer.Comment> gitMinerComments = comments.stream()
+                .map(transformer::transformComment)
+                .collect(Collectors.toList());
+
+        for (aiss.githubminer.model.gitminer.Issue gitMinerIssue : gitMinerIssues) {
+            List<aiss.githubminer.model.gitminer.Comment> issueComments = gitMinerComments.stream()
+                    .filter(comment -> {
+                        String issueUrl = comment.getIssueUrl();
+                        if (issueUrl != null) {
+                            String issueNumberFromCommentUrl = issueUrl.substring(issueUrl.lastIndexOf("/") + 1);
+                            return issueNumberFromCommentUrl.equals(gitMinerIssue.getRefId());
+                        }
+                        return false;
+                    })
+                    .collect(Collectors.toList());
+            gitMinerIssue.setComments(issueComments);
+        }
+
         gitMinerProject.setCommits(gitMinerCommits);
         gitMinerProject.setIssues(gitMinerIssues);
 
-        List<aiss.githubminer.model.gitminer.Comment> gitMinerComments = comments.stream()
-                .map(transformer::transformComment)
-                .toList(); // TODO: Arreglar los comments, no hay que coger los comments del repositorio sino de cada issue y asociarlo
 
         gitMinerService.createProject(gitMinerProject);
     }
@@ -80,9 +98,10 @@ public class GithubMinerController {
         try {
             List<Commit> commits = commitService.getCommits(owner, repoName, sinceCommits, maxPages);
             List<Issue> issues = issueService.getAllIssues(owner, repoName, sinceIssues, maxPages);
-            List<Comment> comments = commentService.getComments(owner, repoName);
+            List<Comment> comments = issues.stream()
+                    .flatMap(issue -> commentService.getComments(owner, repoName, issue.getNumber()).stream())
+                    .toList();
             Project project = projectService.getProject(owner, repoName);
-
 
             Map<String, Object> response = new HashMap<>();
             response.put("project", project);
