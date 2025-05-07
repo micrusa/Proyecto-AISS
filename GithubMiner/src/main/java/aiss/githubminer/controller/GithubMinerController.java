@@ -73,6 +73,7 @@ public class GithubMinerController {
                         if (issueUrl != null) {
                             String issueNumberFromCommentUrl = issueUrl.substring(issueUrl.lastIndexOf("/") + 1);
                             return issueNumberFromCommentUrl.equals(gitMinerIssue.getRefId());
+                            //veo si el id de la issueurl coincide con el refid de la issue pero por algun motivo la issueurl de los comment sale como null y no debería de ser así
                         }
                         return false;
                     })
