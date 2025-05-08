@@ -7,9 +7,11 @@ import aiss.githubminer.model.github.commit.Commit;
 import aiss.githubminer.model.github.issue.Issue;
 import aiss.githubminer.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,19 +40,33 @@ public class GithubMinerController {
     private GitMinerService gitMinerService;
 
     @PostMapping("/{owner}/{repoName}")
-    public void processGithubData(
+    public ResponseEntity<Object> processGithubData(
             @PathVariable("owner") String owner,
             @PathVariable("repoName") String repoName,
             @RequestParam(value = "sinceCommits", defaultValue = "2") int sinceCommits,
             @RequestParam(value = "sinceIssues", defaultValue = "20") int sinceIssues,
             @RequestParam(value = "maxPages", defaultValue = "2") int maxPages
     ) {
-        //  Obtener datos de GitHub usando los servicios
+        aiss.githubminer.model.gitminer.Project gitMinerProject = readProject(owner, repoName, sinceCommits, sinceIssues, maxPages);
+        gitMinerService.createProject(gitMinerProject);
+        return new ResponseEntity<>(HttpStatusCode.valueOf(201));
+    }
+
+    @GetMapping("/{owner}/{repoName}")
+    public ResponseEntity<aiss.githubminer.model.gitminer.Project> getGithubData(
+            @PathVariable String owner,
+            @PathVariable String repoName,
+            @RequestParam(value = "sinceCommits", defaultValue = "2") int sinceCommits,
+            @RequestParam(value = "sinceIssues", defaultValue = "20") int sinceIssues,
+            @RequestParam(value = "maxPages", defaultValue = "2") int maxPages
+    ) {
+        aiss.githubminer.model.gitminer.Project gitMinerProject = readProject(owner, repoName, sinceCommits, sinceIssues, maxPages);
+        return ResponseEntity.ok(gitMinerProject);
+    }
+
+    private aiss.githubminer.model.gitminer.Project readProject(String owner, String repoName, int sinceCommits, int sinceIssues, int maxPages) {
         List<Commit> commits = commitService.getCommits(owner, repoName, sinceCommits, maxPages);
         List<Issue> issues = issueService.getAllIssues(owner, repoName, sinceIssues, maxPages);
-        List<Comment> comments = issues.stream()
-                .flatMap(issue -> commentService.getComments(owner, repoName, issue.getNumber()).stream())
-                .toList();
         Project githubProject = projectService.getProject(owner, repoName);
 
         //  Transformar los datos a modelos de GitMiner
@@ -58,62 +74,19 @@ public class GithubMinerController {
         List<aiss.githubminer.model.gitminer.Commit> gitMinerCommits = commits.stream()
                 .map(transformer::transformCommit)
                 .collect(java.util.stream.Collectors.toList());
-        List<aiss.githubminer.model.gitminer.Issue> gitMinerIssues = issues.stream()
-                .map(transformer::transformIssue)
-                .collect(java.util.stream.Collectors.toList());
+        List<aiss.githubminer.model.gitminer.Issue> gitMinerIssues = new ArrayList<>();
 
-        List<aiss.githubminer.model.gitminer.Comment> gitMinerComments = comments.stream()
-                .map(transformer::transformComment)
-                .collect(Collectors.toList());
+        for (Issue issue : issues) {
+            List<Comment> comments = commentService.getComments(owner, repoName, issue.getNumber());
 
-        for (aiss.githubminer.model.gitminer.Issue gitMinerIssue : gitMinerIssues) {
-            List<aiss.githubminer.model.gitminer.Comment> issueComments = gitMinerComments.stream()
-                    .filter(comment -> {
-                        String issueUrl = comment.getIssueUrl();
-                        if (issueUrl != null) {
-                            String issueNumberFromCommentUrl = issueUrl.substring(issueUrl.lastIndexOf("/") + 1);
-                            return issueNumberFromCommentUrl.equals(gitMinerIssue.getRefId());
-                            //veo si el id de la issueurl coincide con el refid de la issue pero por algun motivo la issueurl de los comment sale como null y no debería de ser así
-                        }
-                        return false;
-                    })
-                    .collect(Collectors.toList());
-            gitMinerIssue.setComments(issueComments);
+            aiss.githubminer.model.gitminer.Issue gitMinerIssue = transformer.transformIssue(issue);
+            gitMinerIssue.setComments(comments.stream().map(transformer::transformComment).toList());
+
+            gitMinerIssues.add(gitMinerIssue);
         }
 
         gitMinerProject.setCommits(gitMinerCommits);
         gitMinerProject.setIssues(gitMinerIssues);
-
-
-        gitMinerService.createProject(gitMinerProject);
-    }
-
-    @GetMapping("/{owner}/{repoName}")
-    public ResponseEntity<Object> getGithubData(
-            @PathVariable String owner,
-            @PathVariable String repoName,
-            @RequestParam(value = "sinceCommits", defaultValue = "2") int sinceCommits,
-            @RequestParam(value = "sinceIssues", defaultValue = "20") int sinceIssues,
-            @RequestParam(value = "maxPages", defaultValue = "2") int maxPages
-    ) {
-        try {
-            List<Commit> commits = commitService.getCommits(owner, repoName, sinceCommits, maxPages);
-            List<Issue> issues = issueService.getAllIssues(owner, repoName, sinceIssues, maxPages);
-            List<Comment> comments = issues.stream()
-                    .flatMap(issue -> commentService.getComments(owner, repoName, issue.getNumber()).stream())
-                    .toList();
-            Project project = projectService.getProject(owner, repoName);
-
-            Map<String, Object> response = new HashMap<>();
-            response.put("project", project);
-            response.put("commits", commits);
-            response.put("issues", issues);
-            response.put("comments", comments);
-
-            return ResponseEntity.ok(response);
-
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(" Error al obtener datos de GitHub: " + e.getMessage());
-        }
+        return gitMinerProject;
     }
 }

@@ -9,6 +9,7 @@ import aiss.githubminer.model.gitminer.Project;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -35,8 +36,7 @@ public class Transformer {
         String id = String.valueOf(externalModel.getSha());
         commit.setId(id);
 
-        //Titulo??
-        String title = externalModel.getCommit().getUrl();
+        String title = externalModel.getCommit().getMessage().split("\n")[0];
         commit.setTitle(title);
 
         String message = externalModel.getCommit().getMessage();
@@ -48,7 +48,7 @@ public class Transformer {
         String authorEmail = externalModel.getAuthor().getEmail();
         commit.setAuthorEmail(authorEmail);
 
-        String authoredDate = externalModel.getAuthor().getDate();
+        String authoredDate = externalModel.getCommit().getAuthor().getDate();
         commit.setAuthoredDate(authoredDate);
 
         String committerName = externalModel.getCommitter().getName();
@@ -85,13 +85,8 @@ public class Transformer {
         comment.setIssueUrl(issueUrl);
 
         User user = externalModel.getUser();
-        aiss.githubminer.model.gitminer.User author = new aiss.githubminer.model.gitminer.User();
-        author.setName(user.getLogin());
-
-
+        aiss.githubminer.model.gitminer.User author = transformCommentUser(user);
         comment.setAuthor(author);
-
-
         return comment;
     }
 
@@ -120,9 +115,9 @@ public class Transformer {
         issue.setUpdatedAt(updatedAt);
 
         String closedAt = null;
-        if (externalModel.getState() == "open") {
+        if (Objects.equals(externalModel.getState(), "open")) {
             closedAt = null;
-        } else if (externalModel.getState() == "closed") {
+        } else if (Objects.equals(externalModel.getState(), "closed")) {
             closedAt = (String) externalModel.getClosedAt();
         }
         issue.setClosedAt(closedAt);
@@ -135,8 +130,7 @@ public class Transformer {
         issue.setLabels(stringLabels);
 
         aiss.githubminer.model.github.issue.User user = externalModel.getUser();
-        aiss.githubminer.model.gitminer.User author = new aiss.githubminer.model.gitminer.User();
-        author.setName(user.getLogin());
+        aiss.githubminer.model.gitminer.User author = transformIssueUser(user);
         issue.setAuthor(author);
 
         Integer upvotes = externalModel.getReactions().getPlusOne();
@@ -150,7 +144,28 @@ public class Transformer {
         return issue;
     }
 
-    public aiss.githubminer.model.gitminer.User transformUser(aiss.githubminer.model.github.user.User externalModel) {
+    public aiss.githubminer.model.gitminer.User transformCommentUser(aiss.githubminer.model.github.comment.User externalModel) {
+        aiss.githubminer.model.gitminer.User user = new aiss.githubminer.model.gitminer.User();
+
+        String id = String.valueOf(externalModel.getId());
+        user.setId(id);
+
+        String username = externalModel.getLogin();
+        user.setUsername(username);
+
+        String name = externalModel.getLogin();
+        user.setName(name);
+
+        String avatarUrl = externalModel.getAvatarUrl();
+        user.setAvatarUrl(avatarUrl);
+
+        String webUrl = externalModel.getHtmlUrl();
+        user.setWebUrl(webUrl);
+
+        return user;
+    }
+
+    public aiss.githubminer.model.gitminer.User transformIssueUser(aiss.githubminer.model.github.issue.User externalModel) {
         aiss.githubminer.model.gitminer.User user = new aiss.githubminer.model.gitminer.User();
 
         String id = String.valueOf(externalModel.getId());
