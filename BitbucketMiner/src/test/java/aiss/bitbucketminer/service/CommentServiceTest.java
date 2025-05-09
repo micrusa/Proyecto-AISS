@@ -22,7 +22,7 @@ class CommentServiceTest {
     @Test
     @DisplayName("Get commit's Comments")
     void getComments() {
-        List<Comment> comments = commentService.getComments("migboibor", "prueba2", "85c93c7f99da23fca2fa1a8fcb0219e805cb2c81", 1);
+        List<Comment> comments = commentService.getComments("anddomhid", "prueba1", "52d370e89688695fff99845f805f4feeb9dd7452", 2);
         assertNotNull(comments);
         assertFalse(comments.isEmpty());
         System.out.println(comments);

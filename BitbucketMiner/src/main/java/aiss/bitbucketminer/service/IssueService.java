@@ -21,10 +21,8 @@ public class IssueService {
         List<Issue> allIssues = new ArrayList<>();
         int page = 1;
         while (page <= maxPages) {
-            // Construir la URI manualmente
             String currentUri = "repositories/" + workspace + "/" + repo_slug + "/issues?page=" + page;
 
-            // Usar BitbucketService para realizar la llamada autenticada
             List<Issue> issues = bitbucketService.getForAuthenticated(currentUri, List.class);
 
             if (issues == null || issues.isEmpty()) {

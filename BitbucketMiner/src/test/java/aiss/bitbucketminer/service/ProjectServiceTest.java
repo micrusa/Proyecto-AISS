@@ -18,7 +18,7 @@ class ProjectServiceTest {
     @Test
     @DisplayName("Get Project")
     void getProject() {
-        Project project = projectService.getProject("migboibor", "P1");
+        Project project = projectService.getProject("anddomhid", "PRUEB");
         assertNotNull(project);
         System.out.println(project);
     }

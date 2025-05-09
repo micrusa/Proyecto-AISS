@@ -6,6 +6,7 @@ import aiss.bitbucketminer.model.bitBucket.comment.CommentContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,7 +18,7 @@ public class CommentService {
 
     public List<Comment> getComments(String workspace, String repo_slug, String commit, int maxPages) {
 
-        List<Comment> allComments = null;
+        List<Comment> allComments = new ArrayList<>();
         int page = 1;
 
         while (page <= maxPages) {

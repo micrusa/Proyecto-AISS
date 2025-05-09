@@ -149,7 +149,7 @@ public class Commit {
         sb.append("  \"hash\": \"").append(hash != null ? hash : "<null>").append("\",\n");
         sb.append("  \"date\": \"").append(date != null ? date : "<null>").append("\",\n");
         sb.append("  \"author\": ").append(author != null ? author.toString() : "null").append(",\n");
-        sb.append("  \"participants\": ").append(participants != null ? participants.toString() : "null").append(",\n");
+        sb.append("  \"participants\": ").append(author != null ? author.toString() : "null").append(",\n");
         sb.append("  \"message\": \"").append(message != null ? message : "<null>").append("\",\n");
         sb.append("  \"summary\": ").append(summary != null ? summary.toString() : "null").append(",\n");
         sb.append("  \"parents\": ").append(parents != null ? parents.toString() : "[]").append("\n");
