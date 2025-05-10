@@ -6,6 +6,9 @@ import aiss.githubminer.model.github.comment.Comment;
 import aiss.githubminer.model.github.commit.Commit;
 import aiss.githubminer.model.github.issue.Issue;
 import aiss.githubminer.service.*;
+import io.swagger.v3.oas.annotations.Operation;
+import jdk.jfr.Percentage;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Tag(name = "GithubMiner", description = "GithubMiner API")
 @RestController
 @RequestMapping("/github")
 public class GithubMinerController {
@@ -39,6 +43,12 @@ public class GithubMinerController {
     @Autowired
     private GitMinerService gitMinerService;
 
+
+    @Operation(
+            summary = "Process Github data",
+            description = "Process Github data for a specific repository and store it in the database",
+            tags = {"github", "post"}
+    )
     @PostMapping("/{owner}/{repoName}")
     public ResponseEntity<Object> processGithubData(
             @PathVariable("owner") String owner,
@@ -52,6 +62,11 @@ public class GithubMinerController {
         return new ResponseEntity<>(HttpStatusCode.valueOf(201));
     }
 
+    @Operation(
+            summary = "Get Github data",
+            description = "Retrieve Github data for a specific repository",
+            tags = {"github", "get"}
+    )
     @GetMapping("/{owner}/{repoName}")
     public ResponseEntity<aiss.githubminer.model.gitminer.Project> getGithubData(
             @PathVariable String owner,

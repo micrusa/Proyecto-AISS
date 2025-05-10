@@ -2,6 +2,7 @@ package aiss.githubminer.service;
 
 import aiss.githubminer.model.github.issue.Issue;
 import aiss.githubminer.utils.GithubUtils;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,11 @@ public class IssueService {
     @Autowired
     GithubService githubService;
 
+    @Operation(
+            summary = "Retrieve all issues",
+            description = "Get all issue objects by owner and repo",
+            tags = {"issues", "get"}
+    )
     public List<Issue> getAllIssues(String owner, String repo, int sinceDays, int maxPages) {
         List<Issue> allIssues = new ArrayList<>();
         LocalDateTime sinceDate = LocalDateTime.now().minusDays(sinceDays);
@@ -44,6 +50,11 @@ public class IssueService {
 
     }
 
+    @Operation(
+            summary = "Retrieve issue by ID",
+            description = "Get issue object by specifying its ID",
+            tags = {"issues", "get"}
+    )
     public Issue getIssue(String owner, String repo, String number) {
         String uri = owner + "/" + repo + "/issues/" + number;
         return githubService.getAuthenticated(uri, Issue.class).getBody();

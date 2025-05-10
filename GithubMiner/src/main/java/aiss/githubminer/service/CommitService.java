@@ -2,6 +2,7 @@ package aiss.githubminer.service;
 
 import aiss.githubminer.model.github.commit.Commit;
 import aiss.githubminer.utils.GithubUtils;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,11 @@ public class CommitService {
     @Autowired
     GithubService githubService;
 
+    @Operation(
+            summary = "Retrieve all commits",
+            description = "Get all commit objects by owner and repo",
+            tags = {"commits", "get"}
+    )
     public List<Commit> getCommits(String owner, String repo, int sinceCommits, int maxPages) {
         List<Commit> allCommits = new ArrayList<>();
         LocalDateTime sinceDate = LocalDateTime.now().minusDays(sinceCommits);

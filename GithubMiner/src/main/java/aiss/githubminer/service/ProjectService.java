@@ -1,6 +1,7 @@
 package aiss.githubminer.service;
 
 import aiss.githubminer.model.github.project.Project;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -16,6 +17,11 @@ public class ProjectService {
     @Autowired
     GithubService githubService;
 
+    @Operation(
+            summary = "Retrieve all projects",
+            description = "Get all project objects by owner and repo",
+            tags = {"projects", "get"}
+    )
     public Project getProject(String owner, String repo) {
         String uri = owner + "/" + repo ;
         ResponseEntity<Project> response = githubService.getAuthenticated(uri, Project.class);
