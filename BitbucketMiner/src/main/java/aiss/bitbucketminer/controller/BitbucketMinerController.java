@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/bitbucketminer")
+@RequestMapping("/bitbucket")
 public class BitbucketMinerController {
 
     @Autowired
@@ -69,9 +69,9 @@ public class BitbucketMinerController {
                 .map(transformer::bitbucketTransformCommit)
                 .collect(Collectors.toList());
 
-       /* List<aiss.bitbucketminer.model.gitMiner.Issue> gitMinerIssues = issues.stream()
+        List<aiss.bitbucketminer.model.gitMiner.Issue> gitMinerIssues = issues.stream()
                 .map(transformer::bitbucketTransformIssue)
-                .collect(Collectors.toList());*/
+                .collect(Collectors.toList());
         List<aiss.bitbucketminer.model.gitMiner.Comment> gitMinerComments = comments.stream()
                 .map(transformer::bitbucketTransformComment)
                 .collect(Collectors.toList());
@@ -79,7 +79,7 @@ public class BitbucketMinerController {
         // Enviar datos transformados a GitMiner
         sendToGitMiner(gitMinerProject, "/projects");
         gitMinerCommits.forEach(commit -> sendToGitMiner(commit, "/commits"));
-        /*gitMinerIssues.forEach(issue -> sendToGitMiner(issue, "/issues"));*/
+        gitMinerIssues.forEach(issue -> sendToGitMiner(issue, "/issues"));
         gitMinerComments.forEach(comment -> sendToGitMiner(comment, "/comments"));
     }
 
@@ -101,11 +101,10 @@ public class BitbucketMinerController {
         }
     }
 
-    @GetMapping("/{workspace}/{repoSlug}/{projectKey}")
+    @GetMapping("/{workspace}/{repoSlug}/")
     public ResponseEntity<Object> getBitbucketData(
             @PathVariable String workspace,
             @PathVariable String repoSlug,
-            @PathVariable String projectKey,
             @RequestParam(defaultValue = "2") int sinceCommits,
             @RequestParam(defaultValue = "20") int sinceIssues,
             @RequestParam(defaultValue = "2") int maxPages
@@ -116,7 +115,7 @@ public class BitbucketMinerController {
             List<Comment> comments = commits.stream()
                     .flatMap(c -> commentService.getComments(workspace, repoSlug, c.getHash(), 1).stream())
                     .collect(Collectors.toList());
-            Project project = projectService.getProject(workspace, projectKey);
+            Project project = projectService.getProject(workspace, repoSlug);
 
             Map<String, Object> response = new HashMap<>();
             response.put("project", project);

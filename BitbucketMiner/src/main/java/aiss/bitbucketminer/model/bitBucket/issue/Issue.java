@@ -226,7 +226,7 @@ public class Issue {
         this.content = content;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Issue.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -308,6 +308,30 @@ public class Issue {
             sb.append(']');
         }
         return sb.toString();
+    }*/
+    @Override
+    public String toString() {
+        return "Issue {\n" +
+                "  type: " + (type != null ? type : "null") + ",\n" +
+                "  links: " + (links != null ? links : "null") + ",\n" +
+                "  id: " + (id != null ? id : "null") + ",\n" +
+                "  repository: " + (repository != null ? repository : "null") + ",\n" +
+                "  title: " + (title != null ? title : "null") + ",\n" +
+                "  reporter: " + (reporter != null ? reporter : "null") + ",\n" +
+                "  assignee: " + (assignee != null ? assignee : "null") + ",\n" +
+                "  createdOn: " + (createdOn != null ? createdOn : "null") + ",\n" +
+                "  updatedOn: " + (updatedOn != null ? updatedOn : "null") + ",\n" +
+                "  editedOn: " + (editedOn != null ? editedOn : "null") + ",\n" +
+                "  state: " + (state != null ? state : "null") + ",\n" +
+                "  kind: " + (kind != null ? kind : "null") + ",\n" +
+                "  priority: " + (priority != null ? priority : "null") + ",\n" +
+                "  milestone: " + (milestone != null ? milestone : "null") + ",\n" +
+                "  version: " + (version != null ? version : "null") + ",\n" +
+                "  component: " + (component != null ? component : "null") + ",\n" +
+                "  votes: " + (votes != null ? votes : "null") + ",\n" +
+                "  content: " + (content != null ? content : "null") + "\n" +
+                "}";
     }
+
 
 }

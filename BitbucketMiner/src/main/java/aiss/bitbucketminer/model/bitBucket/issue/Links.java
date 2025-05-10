@@ -82,7 +82,7 @@ public class Links {
         this.vote = vote;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Links.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -116,6 +116,18 @@ public class Links {
             sb.append(']');
         }
         return sb.toString();
+    }*/
+    @Override
+    public String toString() {
+        return "Links {\n" +
+                "  self: " + (self != null ? self : "null") + ",\n" +
+                "  html: " + (html != null ? html : "null") + ",\n" +
+                "  comments: " + (comments != null ? comments : "null") + ",\n" +
+                "  attachments: " + (attachments != null ? attachments : "null") + ",\n" +
+                "  watch: " + (watch != null ? watch : "null") + ",\n" +
+                "  vote: " + (vote != null ? vote : "null") + "\n" +
+                "}";
     }
+
 
 }

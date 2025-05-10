@@ -22,7 +22,7 @@ public class Reporter {
         this.type = type;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Reporter.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -36,6 +36,12 @@ public class Reporter {
             sb.append(']');
         }
         return sb.toString();
+    }*/
+    @Override
+    public String toString() {
+        return "Reporter {\n" +
+                "  type: " + (type != null ? type : "null") + "\n" +
+                "}";
     }
 
 }

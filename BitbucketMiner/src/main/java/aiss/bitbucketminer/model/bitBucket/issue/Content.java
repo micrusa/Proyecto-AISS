@@ -46,7 +46,7 @@ public class Content {
         this.html = html;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Content.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -68,6 +68,15 @@ public class Content {
             sb.append(']');
         }
         return sb.toString();
+    }*/
+    @Override
+    public String toString() {
+        return "Content {\n" +
+                "  raw: " + (raw != null ? raw : "null") + ",\n" +
+                "  markup: " + (markup != null ? markup : "null") + ",\n" +
+                "  html: " + (html != null ? html : "null") + "\n" +
+                "}";
     }
+
 
 }

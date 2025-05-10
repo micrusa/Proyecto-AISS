@@ -17,10 +17,10 @@ class IssueServiceTest {
     @Autowired
     IssueService issueService;
 
-
+//https://bitbucket.org/djkool14/workspace/projects/SC
     @Test
     void getAllIssues() {
-        List<Issue> issues = issueService.getAllIssues("migboibor", "prueba2", 5, 2);
+        List<Issue> issues = issueService.getAllIssues("gentlero", "bitbucket-api", 5, 2);
         assertNotNull(issues);
         System.out.println(issues);
     }

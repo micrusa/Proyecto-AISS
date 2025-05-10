@@ -113,37 +113,18 @@ public class Transformer {
     }
 
 
-    /*public Issue bitbucketTransformIssue(aiss.bitbucketminer.model.bitBucket.issue.Issue externalModel) {
+    public Issue bitbucketTransformIssue(aiss.bitbucketminer.model.bitBucket.issue.Issue externalModel) {
         Issue issue = new Issue();
 
         String id = externalModel.getId().toString();
         issue.setId(id);
 
-        String refId = externalModel.getLinks().getHtml().getHref();
-        issue.setRefId(refId);
 
-        String title = externalModel.getTitle();
-        issue.setTitle(title);
 
-        String description = externalModel.getContent().toString();
-        issue.setDescription(description);
 
-        String state = externalModel.getState();
-        issue.setState(state);
-
-        String createdAt = externalModel.getCreatedOn();
-        issue.setCreatedAt(createdAt);
-
-        String updatedAt = externalModel.getEditedOn();
-        issue.setUpdatedAt(updatedAt);
-
-        String closedAt = externalModel.getUpdatedOn();
-        issue.setClosedAt(closedAt);
-
-        User author = externalModel.getAuthor();
 
         return issue;
-    }*/
+    }
 
     // Métodos para transformar listas
     public List<Commit> bitbucketTransformCommits(List<aiss.bitbucketminer.model.bitBucket.commit.Commit> externalModels) {

@@ -34,7 +34,7 @@ public class Comments {
         this.name = name;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Comments.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -52,6 +52,14 @@ public class Comments {
             sb.append(']');
         }
         return sb.toString();
+    }*/
+    @Override
+    public String toString() {
+        return "Comments {\n" +
+                "  href: " + (href != null ? href : "null") + ",\n" +
+                "  name: " + (name != null ? name : "null") + "\n" +
+                "}";
     }
+
 
 }

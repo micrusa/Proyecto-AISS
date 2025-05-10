@@ -34,7 +34,7 @@ public class Watch {
         this.name = name;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Watch.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -52,6 +52,14 @@ public class Watch {
             sb.append(']');
         }
         return sb.toString();
+    }*/
+    @Override
+    public String toString() {
+        return "Watch {\n" +
+                "  href: " + (href != null ? href : "null") + ",\n" +
+                "  name: " + (name != null ? name : "null") + "\n" +
+                "}";
     }
+
 
 }
