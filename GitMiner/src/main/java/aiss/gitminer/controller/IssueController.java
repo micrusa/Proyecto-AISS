@@ -68,34 +68,4 @@ public class IssueController {
         return ResponseEntity.ok(comments);
     }
 
-    @Operation(
-            summary = "Retrieve issues by author ID",
-            description = "Get all issues by specifying its author ID",
-            tags = {"issues", "get"}
-    )
-
-    @GetMapping("/author/{id}")
-    public ResponseEntity<List<Issue>> getByAuthorId(
-            @Parameter(description = "ID of the author whose issues to be retrieved", required = true) @PathVariable(name = "id") String id
-    ) {
-        List<Issue> issues = issueRepository.findByStateAndAuthorId(null, id);
-        return ResponseEntity.ok(issues);
-
-    }
-
-    @Operation(
-            summary = "Retrieve issues by state",
-            description = "Get all issues by specifying its state",
-            tags = {"issues", "get"}
-    )
-    @GetMapping("/state/{state}")
-    public ResponseEntity<List<Issue>> getByState(
-            @Parameter(description = "State of the issues to be retrieved", required = true) @PathVariable(name = "state") String state
-    ) {
-        List<Issue> issues = issueRepository.findByStateAndAuthorId(state, null);
-        return ResponseEntity.ok(issues);
-    }
-
-
-
 }
