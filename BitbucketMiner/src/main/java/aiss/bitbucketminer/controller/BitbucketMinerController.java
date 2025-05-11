@@ -108,8 +108,7 @@ public class BitbucketMinerController {
         for (Issue issue : issues) {
             aiss.bitbucketminer.model.gitMiner.Issue gitMinerIssue = transformer.transformIssue(issue);
 
-            // TODO: Corregir estos comments. Se están leyendo los comments del commit, y tienen q ser los commits del issue
-            List<Comment> comments = new ArrayList<>();//commentService.getComments(workspace, repoSlug, issue.get, 1);
+            List<Comment> comments = commentService.getComments(workspace, repoSlug, String.valueOf(issue.getId()), 1);
 
             List<aiss.bitbucketminer.model.gitMiner.Comment> gitMinerComments = comments.stream()
                     .map(transformer::transformComment).toList();
