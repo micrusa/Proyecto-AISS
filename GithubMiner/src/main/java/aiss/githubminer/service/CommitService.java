@@ -24,13 +24,13 @@ public class CommitService {
             description = "Get all commit objects by owner and repo",
             tags = {"commits", "get"}
     )
-    public List<Commit> getCommits(String owner, String repo, int sinceCommits, int maxPages) {
+    public List<Commit> getCommits(String owner, String repo_slug, int sinceCommits, int maxPages) {
         List<Commit> allCommits = new ArrayList<>();
         LocalDateTime sinceDate = LocalDateTime.now().minusDays(sinceCommits);
         String sinceParam = sinceDate.format(DateTimeFormatter.ISO_DATE_TIME);
 
         int page = 1;
-        String currentUri = String.format("%s/%s/%s/commits?since=%s&page=%d", githubService.baseuri, owner, repo, sinceParam, 1);
+        String currentUri = String.format("%s/%s/%s/commits?since=%s&page=%d", githubService.baseuri, owner, repo_slug, sinceParam, 1);
 
         while (page++ <= maxPages && currentUri != null) {
             ResponseEntity<Commit[]> response = githubService.getAuthenticatedFullUri(currentUri, Commit[].class);

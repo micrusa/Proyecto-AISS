@@ -101,21 +101,23 @@ public class BitbucketMinerController {
         }
     }
 
-    @GetMapping("/{workspace}/{repoSlug}/")
+    @GetMapping("/{workspace}/{repoSlug}")
     public ResponseEntity<Object> getBitbucketData(
             @PathVariable String workspace,
             @PathVariable String repoSlug,
-            @RequestParam(defaultValue = "2") int sinceCommits,
-            @RequestParam(defaultValue = "20") int sinceIssues,
+            @RequestParam(name = "projectKey") String projectKey,
+            @RequestParam(name = "nCommits", defaultValue = "2") int nCommits,
+            @RequestParam(name = "nIssues", defaultValue = "20") int nIssues,
             @RequestParam(defaultValue = "2") int maxPages
-    ) {
+    )
+    {
         try {
-            List<Commit> commits = commitService.getCommits(workspace, repoSlug, sinceCommits, maxPages);
-            List<Issue> issues = issueService.getAllIssues(workspace, repoSlug, sinceIssues, maxPages);
+            List<Commit> commits = commitService.getCommits(workspace, repoSlug, nCommits, maxPages);
+            List<Issue> issues = issueService.getAllIssues(workspace, repoSlug, nIssues, maxPages);
             List<Comment> comments = commits.stream()
                     .flatMap(c -> commentService.getComments(workspace, repoSlug, c.getHash(), 1).stream())
                     .collect(Collectors.toList());
-            Project project = projectService.getProject(workspace, repoSlug);
+            Project project = projectService.getProject(workspace, projectKey);
 
             Map<String, Object> response = new HashMap<>();
             response.put("project", project);
@@ -129,4 +131,5 @@ public class BitbucketMinerController {
             return ResponseEntity.internalServerError().body("Error al obtener datos de Bitbucket: " + e.getMessage());
         }
     }
+
 }
