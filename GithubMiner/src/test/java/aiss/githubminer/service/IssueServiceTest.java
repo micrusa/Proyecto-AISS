@@ -19,7 +19,7 @@ class IssueServiceTest {
 
     @Test
     void getAllIssues() {
-        List<Issue> issues = issueService.getAllIssues("octocat", "Hello-World", 1, 5);
+        List<Issue> issues = issueService.getAllIssues("spring-projects", "spring-framework", 100, 5);
         assertNotNull(issues);
         assertFalse(issues.isEmpty());
         System.out.println(issues);

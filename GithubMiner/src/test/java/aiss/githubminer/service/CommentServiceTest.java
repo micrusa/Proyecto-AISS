@@ -17,7 +17,7 @@ class CommentServiceTest {
 
     @Test
     void getComments() {
-        List<Comment> comments = commentService.getComments("spring-projects", "spring-framework");
+        List<Comment> comments = commentService.getComments("spring-projects", "spring-framework", 1);
         assertNotNull(comments);
         assertFalse(comments.isEmpty());
         for (Comment comment : comments) {
