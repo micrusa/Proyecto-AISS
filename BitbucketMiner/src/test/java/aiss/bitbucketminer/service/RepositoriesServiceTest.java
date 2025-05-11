@@ -17,7 +17,7 @@ class RepositoriesServiceTest {
     RepositoriesService repositoriesService;
 
     @Test
-   void getAllRepositories() {
+    void getAllRepositories() {
         List<Repositories> repositories = repositoriesService.getAllRepositories("gentlero", "bitbucket-api", 5);
         assertNotNull(repositories);
         assertFalse(repositories.isEmpty(), "The list of repositories should not be empty");
