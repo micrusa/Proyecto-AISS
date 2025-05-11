@@ -110,7 +110,6 @@ public class GithubMinerController {
         aiss.githubminer.model.gitminer.Project gitMinerProject = transformer.transformProject(githubProject);
         List<aiss.githubminer.model.gitminer.Commit> gitMinerCommits = commits.stream()
                 .map(transformer::transformCommit)
-                .filter(Objects::nonNull) // Necesario para cumplir restricciones
                 .collect(java.util.stream.Collectors.toList());
         List<aiss.githubminer.model.gitminer.Issue> gitMinerIssues = new ArrayList<>();
 
