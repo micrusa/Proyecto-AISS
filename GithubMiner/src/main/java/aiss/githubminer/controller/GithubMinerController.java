@@ -8,6 +8,10 @@ import aiss.githubminer.model.github.issue.Issue;
 import aiss.githubminer.service.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jdk.jfr.Percentage;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +19,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Tag(name = "GithubMiner", description = "GithubMiner API")
@@ -50,6 +51,11 @@ public class GithubMinerController {
             description = "Process Github data for a specific repository and store it in the database",
             tags = {"github", "post"}
     )
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", content = {
+                    @Content(schema = @Schema())
+            }),
+    })
     @PostMapping("/{owner}/{repoName}")
     public ResponseEntity<Object> processGithubData(
             @Parameter(description = "Owner of the repository to process", required = true)
@@ -73,6 +79,11 @@ public class GithubMinerController {
             description = "Retrieve Github data for a specific repository",
             tags = {"github", "get"}
     )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {
+                    @Content(schema = @Schema(implementation = Project.class))
+            }),
+    })
     @GetMapping("/{owner}/{repoName}")
     public ResponseEntity<aiss.githubminer.model.gitminer.Project> getGithubData(
             @Parameter(description = "Owner of the repository to process", required = true)
@@ -99,6 +110,7 @@ public class GithubMinerController {
         aiss.githubminer.model.gitminer.Project gitMinerProject = transformer.transformProject(githubProject);
         List<aiss.githubminer.model.gitminer.Commit> gitMinerCommits = commits.stream()
                 .map(transformer::transformCommit)
+                .filter(Objects::nonNull) // Necesario para cumplir restricciones
                 .collect(java.util.stream.Collectors.toList());
         List<aiss.githubminer.model.gitminer.Issue> gitMinerIssues = new ArrayList<>();
 

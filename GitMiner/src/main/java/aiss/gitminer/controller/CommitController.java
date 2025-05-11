@@ -1,10 +1,15 @@
 package aiss.gitminer.controller;
 
 import aiss.gitminer.exception.CommitNotFoundException;
+import aiss.gitminer.model.Comment;
 import aiss.gitminer.model.Commit;
 import aiss.gitminer.repository.CommitRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +33,11 @@ public class CommitController {
             description = "Get all commit objects by email",
             tags = {"commits", "get"}
     )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {
+                    @Content(schema = @Schema(implementation = Commit.class, type = "array"))
+            })
+    })
     @GetMapping
     public ResponseEntity<List<Commit>> getAll(
             @Parameter(description = "The email of the commits to be retrieved") @PathVariable(name = "email", required = false) String email
@@ -46,6 +56,14 @@ public class CommitController {
             description = "Get commit object by specifying its ID",
             tags = {"commits", "get"}
     )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {
+                    @Content(schema = @Schema(implementation = Commit.class))
+            }),
+            @ApiResponse(responseCode = "404", content = {
+                    @Content(schema = @Schema())
+            })
+    })
     @GetMapping("/{id}")
     public ResponseEntity<Commit> getById(
             @Parameter(description = "ID of the commit to be retrieved", required = true) @PathVariable(name = "id") String id

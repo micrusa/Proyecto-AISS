@@ -62,6 +62,9 @@ public class Transformer {
         String committedDate = externalModel.getCommitter().getDate();
         commit.setCommittedDate(committedDate);
 
+        if(committerName == null || committerName.isEmpty() || committedDate == null || committedDate.isEmpty())
+            return null; // Cumplimos las restricciones de GitMiner
+
         String webUrl = externalModel.getHtmlUrl();
         commit.setWebUrl(webUrl);
 

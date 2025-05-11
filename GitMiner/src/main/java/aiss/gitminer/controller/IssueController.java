@@ -6,6 +6,10 @@ import aiss.gitminer.model.Issue;
 import aiss.gitminer.repository.IssueRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -28,6 +32,11 @@ public class IssueController {
             description = "Get all issue objects by state and author ID",
             tags = {"issues", "get"}
     )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {
+                    @Content(schema = @Schema(implementation = Issue.class, type = "array"))
+            }),
+    })
     @GetMapping
     public ResponseEntity<List<Issue>> getAll(
             @Parameter(description = "The state of the issues to be retrieved")
@@ -44,6 +53,14 @@ public class IssueController {
             description = "Get issue object by specifying its ID",
             tags = {"issues", "get"}
     )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {
+                    @Content(schema = @Schema(implementation = Issue.class))
+            }),
+            @ApiResponse(responseCode = "404", content = {
+                    @Content(schema = @Schema())
+            })
+    })
     @GetMapping("/{id}")
     public ResponseEntity<Issue> getById(
             @Parameter(description = "ID of the issue to be retrieved", required = true) @PathVariable(name = "id") String id
@@ -58,6 +75,14 @@ public class IssueController {
             description = "Get all comments of an issue by specifying its ID",
             tags = {"issues", "comments", "get"}
     )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {
+                    @Content(schema = @Schema(implementation = Comment.class, type = "array"))
+            }),
+            @ApiResponse(responseCode = "404", content = {
+                    @Content(schema = @Schema())
+            })
+    })
     @GetMapping("/{id}/comments")
     public ResponseEntity<List<Comment>> getComments(
             @Parameter(description = "ID of the issue to retrieve comments from", required = true) @PathVariable(name = "id") String id

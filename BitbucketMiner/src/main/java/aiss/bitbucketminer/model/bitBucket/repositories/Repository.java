@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "project",
     "mainbranch"
 })
-public class Repositories {
+public class Repository {
 
     @JsonProperty("type")
     private String type;

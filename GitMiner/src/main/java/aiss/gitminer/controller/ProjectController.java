@@ -77,7 +77,7 @@ public class ProjectController {
                     @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Project.class))
             }),
-            @ApiResponse(responseCode = "400", content = {
+            @ApiResponse(responseCode = "422", content = {
                     @Content(schema = @Schema())
             })
     })
@@ -102,7 +102,7 @@ public class ProjectController {
             @ApiResponse(responseCode = "404", content = {
                     @Content(schema = @Schema())
             }),
-            @ApiResponse(responseCode = "400", content = {
+            @ApiResponse(responseCode = "422", content = {
                     @Content(schema = @Schema())
             })
     })

@@ -32,12 +32,14 @@ public class Commit {
     private String authoredDate;
     @JsonProperty("committer_name")
     //@NotEmpty(message = "Committer name cannot be empty.")
+    // No pasa las pruebas originales de postman con esta restricción
     private String committerName;
     @JsonProperty("committer_email")
     private String committerEmail;
 
     @JsonProperty("committed_date")
     //@NotEmpty(message = "Committer date cannot be empty.")
+    // No pasa las pruebas originales de postman con esta restricción
     private String committedDate;
 
     @JsonProperty("web_url")

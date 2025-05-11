@@ -35,17 +35,6 @@ public class CommentService {
         }
 
         return allComments;
-
-       /* String uri = "repositories/" + workspace + "/" + repo_slug + "/commit/" + commit + "/comments";
-        CommentContainer comments = bitbucketService.getForAuthenticated(uri, CommentContainer.class);
-        return comments.getValues();*/
-    }
-
-    public Comment getComment(String workspace, String repo_slug,String commit, String id) {
-
-        String uri = workspace + "/" + repo_slug + "/commit/" + commit + "/comments/" + id;
-        Comment comment = bitbucketService.getForAuthenticated(uri, Comment.class);
-        return comment;
     }
 
 }

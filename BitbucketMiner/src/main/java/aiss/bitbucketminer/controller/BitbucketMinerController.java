@@ -1,26 +1,29 @@
-/*
 package aiss.bitbucketminer.controller;
 
 import aiss.bitbucketminer.etl.Transformer;
 import aiss.bitbucketminer.model.bitBucket.comment.Comment;
 import aiss.bitbucketminer.model.bitBucket.commit.Commit;
 import aiss.bitbucketminer.model.bitBucket.issue.Issue;
-import aiss.bitbucketminer.model.bitBucket.project.Project;
-import aiss.bitbucketminer.service.CommentService;
-import aiss.bitbucketminer.service.CommitService;
-import aiss.bitbucketminer.service.IssueService;
-import aiss.bitbucketminer.service.RepositoriesService;
+import aiss.bitbucketminer.model.bitBucket.repositories.Repository;
+import aiss.bitbucketminer.model.gitMiner.Project;
+import aiss.bitbucketminer.service.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Tag(name = "BitbucketMiner", description = "BitbucketMiner API")
 @RestController
 @RequestMapping("/bitbucket")
 public class BitbucketMinerController {
@@ -35,103 +38,89 @@ public class BitbucketMinerController {
     private CommentService commentService;
 
     @Autowired
-    private RepositoriesService projectService;
+    private RepositoryService repositoryService;
 
     @Autowired
     private Transformer transformer;
 
     @Autowired
-    private RestTemplate restTemplate;
+    private GitMinerService gitMinerService;
 
-    @Value("${gitminer.baseuri}")
-    private String gitMinerUri;
-
-    @PostMapping("/{workspace}/{repoSlug}/{projectKey}")
-    public void processBitbucketData(
+    @Operation(
+            summary = "Process Bitbucket data",
+            description = "Process Bitbucket data for a specific repository and store it in the database",
+            tags = {"bitbucket", "post"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", content = {
+                    @Content(schema = @Schema())
+            }),
+    })
+    @PostMapping("/{workspace}/{repoSlug}")
+    public ResponseEntity<Object> processBitbucketData(
             @PathVariable String workspace,
             @PathVariable String repoSlug,
-            @PathVariable String projectKey,
             @RequestParam(defaultValue = "2") int sinceCommits,
             @RequestParam(defaultValue = "20") int sinceIssues,
             @RequestParam(defaultValue = "2") int maxPages
     ) {
-        List<Commit> commits = commitService.getCommits(workspace, repoSlug, sinceCommits, maxPages);
-        List<Issue> issues = issueService.getAllIssues(workspace, repoSlug, sinceIssues, maxPages);
-
-        List<Comment> comments = commits.stream()
-                .flatMap(c -> commentService.getComments(workspace, repoSlug, c.getHash(), 1).stream())
-                .collect(Collectors.toList());
-
-        Project bitbucketProject = projectService.getAllRepositories(workspace, projectKey);
-
-        aiss.bitbucketminer.model.gitMiner.Project gitMinerProject = transformer.bitbucketTransformProject(bitbucketProject);
-
-        List<aiss.bitbucketminer.model.gitMiner.Commit> gitMinerCommits = commits.stream()
-                .map(transformer::bitbucketTransformCommit)
-                .collect(Collectors.toList());
-
-        List<aiss.bitbucketminer.model.gitMiner.Issue> gitMinerIssues = issues.stream()
-                .map(transformer::bitbucketTransformIssue)
-                .collect(Collectors.toList());
-        List<aiss.bitbucketminer.model.gitMiner.Comment> gitMinerComments = comments.stream()
-                .map(transformer::bitbucketTransformComment)
-                .collect(Collectors.toList());
-
-        // Enviar datos transformados a GitMiner
-        sendToGitMiner(gitMinerProject, "/projects");
-        gitMinerCommits.forEach(commit -> sendToGitMiner(commit, "/commits"));
-        gitMinerIssues.forEach(issue -> sendToGitMiner(issue, "/issues"));
-        gitMinerComments.forEach(comment -> sendToGitMiner(comment, "/comments"));
+        Project gitMinerProject = readProject(workspace, repoSlug, sinceCommits, sinceIssues, maxPages);
+        gitMinerService.createProject(gitMinerProject);
+        return new ResponseEntity<>(HttpStatusCode.valueOf(201));
     }
 
-    private <T> void sendToGitMiner(T data, String endpoint) {
-        HttpHeaders headers = new HttpHeaders(); // Cabecera HTTP
-        headers.setContentType(MediaType.APPLICATION_JSON); // Especificamos JSON como tipo de contenido
-
-        HttpEntity<T> request = new HttpEntity<>(data, headers); // Cuerpo de la petición
-
-        ResponseEntity<String> response = restTemplate.exchange(
-                gitMinerUri + endpoint,
-                HttpMethod.POST,
-                request,
-                String.class
-        );
-
-        if (!response.getStatusCode().is2xxSuccessful()) {
-            throw new RuntimeException("Error enviando datos a GitMiner: " + response.getStatusCode());
-        }
-    }
-
+    @Operation(
+            summary = "Retrieve Bitbucket data",
+            description = "Get Bitbucket data for a specific repository",
+            tags = {"bitbucket", "get"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {
+                    @Content(schema = @Schema(implementation = Project.class))
+            }),
+    })
     @GetMapping("/{workspace}/{repoSlug}")
-    public ResponseEntity<Object> getBitbucketData(
+    public ResponseEntity<Project> getBitbucketData(
             @PathVariable String workspace,
             @PathVariable String repoSlug,
-            @RequestParam(name = "projectKey") String projectKey,
             @RequestParam(name = "nCommits", defaultValue = "2") int nCommits,
             @RequestParam(name = "nIssues", defaultValue = "20") int nIssues,
             @RequestParam(defaultValue = "2") int maxPages
     )
     {
-        try {
-            List<Commit> commits = commitService.getCommits(workspace, repoSlug, nCommits, maxPages);
-            List<Issue> issues = issueService.getAllIssues(workspace, repoSlug, nIssues, maxPages);
-            List<Comment> comments = commits.stream()
-                    .flatMap(c -> commentService.getComments(workspace, repoSlug, c.getHash(), 1).stream())
-                    .collect(Collectors.toList());
-            Project project = projectService.getProject(workspace, projectKey);
+        Project gitMinerProject = readProject(workspace, repoSlug, nCommits, nIssues, maxPages);
+        return ResponseEntity.ok(gitMinerProject);
+    }
 
-            Map<String, Object> response = new HashMap<>();
-            response.put("project", project);
-            response.put("commits", commits);
-            response.put("issues", issues);
-            response.put("comments", comments);
+    private Project readProject(String workspace, String repoSlug, int nCommits, int nIssues, int maxPages) {
+        List<Commit> commits = commitService.getCommits(workspace, repoSlug, nCommits, maxPages);
+        List<Issue> issues = issueService.getAllIssues(workspace, repoSlug, nIssues, maxPages);
 
-            return ResponseEntity.ok(response);
+        Repository bitbucketProject = repositoryService.getRepository(workspace, repoSlug);
 
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error al obtener datos de Bitbucket: " + e.getMessage());
+        aiss.bitbucketminer.model.gitMiner.Project gitMinerProject = transformer.transformProject(bitbucketProject);
+
+        List<aiss.bitbucketminer.model.gitMiner.Commit> gitMinerCommits = commits.stream()
+                .map(transformer::transformCommit)
+                .collect(Collectors.toList());
+
+        List<aiss.bitbucketminer.model.gitMiner.Issue> gitMinerIssues = new ArrayList<>();
+        for (Issue issue : issues) {
+            aiss.bitbucketminer.model.gitMiner.Issue gitMinerIssue = transformer.transformIssue(issue);
+
+            // TODO: Corregir estos comments. Se están leyendo los comments del commit, y tienen q ser los commits del issue
+            List<Comment> comments = new ArrayList<>();//commentService.getComments(workspace, repoSlug, issue.get, 1);
+
+            List<aiss.bitbucketminer.model.gitMiner.Comment> gitMinerComments = comments.stream()
+                    .map(transformer::transformComment).toList();
+            gitMinerIssue.setComments(gitMinerComments);
+            gitMinerIssues.add(gitMinerIssue);
         }
+
+        gitMinerProject.setCommits(gitMinerCommits);
+        gitMinerProject.setIssues(gitMinerIssues);
+
+        return gitMinerProject;
     }
 
 }
-*/
