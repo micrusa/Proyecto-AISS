@@ -16,13 +16,13 @@ public class CommentService {
     BitbucketService bitbucketService;
 
 
-    public List<Comment> getComments(String workspace, String repo_slug, String commit, int maxPages) {
+    public List<Comment> getComments(String workspace, String repo_slug, String issueId, int maxPages) {
 
         List<Comment> allComments = new ArrayList<>();
         int page = 1;
 
         while (page <= maxPages) {
-            String currentUri = "repositories/" + workspace + "/" + repo_slug + "/commit/" + commit + "/comments?page=" + page;
+            String currentUri = "repositories/" + workspace + "/" + repo_slug + "/issues/" + issueId + "/comments?page=" + page;
 
             CommentContainer commentContainer = bitbucketService.getForAuthenticated(currentUri, CommentContainer.class);
 
