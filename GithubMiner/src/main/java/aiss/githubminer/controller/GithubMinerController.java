@@ -7,6 +7,7 @@ import aiss.githubminer.model.github.commit.Commit;
 import aiss.githubminer.model.github.issue.Issue;
 import aiss.githubminer.service.*;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import jdk.jfr.Percentage;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,10 +52,15 @@ public class GithubMinerController {
     )
     @PostMapping("/{owner}/{repoName}")
     public ResponseEntity<Object> processGithubData(
+            @Parameter(description = "Owner of the repository to process", required = true)
             @PathVariable("owner") String owner,
+            @Parameter(description = "Name of the repository to process", required = true)
             @PathVariable("repoName") String repoName,
+            @Parameter(description = "Number of commits to retrieve")
             @RequestParam(value = "sinceCommits", defaultValue = "2") int sinceCommits,
+            @Parameter(description = "Number of issues to retrieve")
             @RequestParam(value = "sinceIssues", defaultValue = "20") int sinceIssues,
+            @Parameter(description = "Maximum number of pages to retrieve")
             @RequestParam(value = "maxPages", defaultValue = "2") int maxPages
     ) {
         aiss.githubminer.model.gitminer.Project gitMinerProject = readProject(owner, repoName, sinceCommits, sinceIssues, maxPages);
@@ -69,10 +75,15 @@ public class GithubMinerController {
     )
     @GetMapping("/{owner}/{repoName}")
     public ResponseEntity<aiss.githubminer.model.gitminer.Project> getGithubData(
+            @Parameter(description = "Owner of the repository to process", required = true)
             @PathVariable String owner,
+            @Parameter(description = "Name of the repository to process", required = true)
             @PathVariable String repoName,
+            @Parameter(description = "Number of commits to retrieve")
             @RequestParam(value = "sinceCommits", defaultValue = "2") int sinceCommits,
+            @Parameter(description = "Number of issues to retrieve")
             @RequestParam(value = "sinceIssues", defaultValue = "20") int sinceIssues,
+            @Parameter(description = "Maximum number of pages to retrieve")
             @RequestParam(value = "maxPages", defaultValue = "2") int maxPages
     ) {
         aiss.githubminer.model.gitminer.Project gitMinerProject = readProject(owner, repoName, sinceCommits, sinceIssues, maxPages);

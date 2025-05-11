@@ -17,11 +17,6 @@ public class ProjectService {
     @Autowired
     GithubService githubService;
 
-    @Operation(
-            summary = "Retrieve all projects",
-            description = "Get all project objects by owner and repo",
-            tags = {"projects", "get"}
-    )
     public Project getProject(String owner, String repo) {
         String uri = owner + "/" + repo ;
         ResponseEntity<Project> response = githubService.getAuthenticated(uri, Project.class);

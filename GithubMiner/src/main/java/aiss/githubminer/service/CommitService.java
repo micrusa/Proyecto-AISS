@@ -19,11 +19,6 @@ public class CommitService {
     @Autowired
     GithubService githubService;
 
-    @Operation(
-            summary = "Retrieve all commits",
-            description = "Get all commit objects by owner and repo",
-            tags = {"commits", "get"}
-    )
     public List<Commit> getCommits(String owner, String repo_slug, int sinceCommits, int maxPages) {
         List<Commit> allCommits = new ArrayList<>();
         LocalDateTime sinceDate = LocalDateTime.now().minusDays(sinceCommits);

@@ -19,11 +19,6 @@ public class IssueService {
     @Autowired
     GithubService githubService;
 
-    @Operation(
-            summary = "Retrieve all issues",
-            description = "Get all issue objects by owner and repo",
-            tags = {"issues", "get"}
-    )
     public List<Issue> getAllIssues(String owner, String repo, int sinceDays, int maxPages) {
         List<Issue> allIssues = new ArrayList<>();
         LocalDateTime sinceDate = LocalDateTime.now().minusDays(sinceDays);
