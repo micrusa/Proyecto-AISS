@@ -1,3 +1,4 @@
+/*
 package aiss.bitbucketminer.controller;
 
 import aiss.bitbucketminer.etl.Transformer;
@@ -8,7 +9,7 @@ import aiss.bitbucketminer.model.bitBucket.project.Project;
 import aiss.bitbucketminer.service.CommentService;
 import aiss.bitbucketminer.service.CommitService;
 import aiss.bitbucketminer.service.IssueService;
-import aiss.bitbucketminer.service.ProjectService;
+import aiss.bitbucketminer.service.RepositoriesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -34,7 +35,7 @@ public class BitbucketMinerController {
     private CommentService commentService;
 
     @Autowired
-    private ProjectService projectService;
+    private RepositoriesService projectService;
 
     @Autowired
     private Transformer transformer;
@@ -61,7 +62,7 @@ public class BitbucketMinerController {
                 .flatMap(c -> commentService.getComments(workspace, repoSlug, c.getHash(), 1).stream())
                 .collect(Collectors.toList());
 
-        Project bitbucketProject = projectService.getProject(workspace, projectKey);
+        Project bitbucketProject = projectService.getAllRepositories(workspace, projectKey);
 
         aiss.bitbucketminer.model.gitMiner.Project gitMinerProject = transformer.bitbucketTransformProject(bitbucketProject);
 
@@ -133,3 +134,4 @@ public class BitbucketMinerController {
     }
 
 }
+*/
