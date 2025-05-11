@@ -142,7 +142,7 @@ public class Links {
         this.hooks = hooks;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Links.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -192,6 +192,22 @@ public class Links {
             sb.append(']');
         }
         return sb.toString();
+    }*/
+    @Override
+    public String toString() {
+        return "Links{" +
+                "self=" + (self != null ? self : "null") +
+                ", html=" + (html != null ? html : "null") +
+                ", avatar=" + (avatar != null ? avatar : "null") +
+                ", pullrequests=" + (pullrequests != null ? pullrequests : "null") +
+                ", commits=" + (commits != null ? commits : "null") +
+                ", forks=" + (forks != null ? forks : "null") +
+                ", watchers=" + (watchers != null ? watchers : "null") +
+                ", downloads=" + (downloads != null ? downloads : "null") +
+                ", clone=" + (clone != null ? clone : "null") +
+                ", hooks=" + (hooks != null ? hooks : "null") +
+                '}';
     }
+
 
 }

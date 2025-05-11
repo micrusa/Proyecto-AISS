@@ -37,7 +37,7 @@ public class Commits {
         this.name = name;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Commits.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -55,6 +55,14 @@ public class Commits {
             sb.append(']');
         }
         return sb.toString();
+    }*/
+    @Override
+    public String toString() {
+        return "Commits{" +
+                "href=" + (href != null ? href : "null") +
+                ", name=" + (name != null ? name : "null") +
+                '}';
     }
+
 
 }

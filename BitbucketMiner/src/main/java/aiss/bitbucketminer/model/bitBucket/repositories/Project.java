@@ -24,7 +24,7 @@ public class Project {
         this.type = type;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Project.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -38,6 +38,13 @@ public class Project {
             sb.append(']');
         }
         return sb.toString();
+    }*/
+    @Override
+    public String toString() {
+        return "Project{" +
+                "type=" + (type != null ? type : "null") +
+                '}';
     }
+
 
 }

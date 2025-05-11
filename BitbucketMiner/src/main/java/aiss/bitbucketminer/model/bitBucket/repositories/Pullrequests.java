@@ -37,7 +37,7 @@ public class Pullrequests {
         this.name = name;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Pullrequests.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -55,6 +55,14 @@ public class Pullrequests {
             sb.append(']');
         }
         return sb.toString();
+    }*/
+    @Override
+    public String toString() {
+        return "Pullrequests{" +
+                "href=" + (href != null ? href : "null") +
+                ", name=" + (name != null ? name : "null") +
+                '}';
     }
+
 
 }

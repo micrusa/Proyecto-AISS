@@ -245,7 +245,7 @@ public class Repositories {
         this.mainbranch = mainbranch;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Repositories.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -327,6 +327,33 @@ public class Repositories {
             sb.append(']');
         }
         return sb.toString();
+    }*/
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\n");
+        sb.append("  \"type\": \"").append(type != null ? type : "<null>").append("\",\n");
+        sb.append("  \"links\": ").append(links != null ? links.toString() : "<null>").append(",\n");
+        sb.append("  \"uuid\": \"").append(uuid != null ? uuid : "<null>").append("\",\n");
+        sb.append("  \"fullName\": \"").append(fullName != null ? fullName : "<null>").append("\",\n");
+        sb.append("  \"isPrivate\": \"").append(isPrivate != null ? isPrivate : "<null>").append("\",\n");
+        sb.append("  \"scm\": \"").append(scm != null ? scm : "<null>").append("\",\n");
+        sb.append("  \"owner\": ").append(owner != null ? owner.toString() : "<null>").append(",\n");
+        sb.append("  \"name\": \"").append(name != null ? name : "<null>").append("\",\n");
+        sb.append("  \"description\": \"").append(description != null ? description : "<null>").append("\",\n");
+        sb.append("  \"createdOn\": \"").append(createdOn != null ? createdOn : "<null>").append("\",\n");
+        sb.append("  \"updatedOn\": \"").append(updatedOn != null ? updatedOn : "<null>").append("\",\n");
+        sb.append("  \"size\": \"").append(size != null ? size : "<null>").append("\",\n");
+        sb.append("  \"language\": \"").append(language != null ? language : "<null>").append("\",\n");
+        sb.append("  \"hasIssues\": \"").append(hasIssues != null ? hasIssues : "<null>").append("\",\n");
+        sb.append("  \"hasWiki\": \"").append(hasWiki != null ? hasWiki : "<null>").append("\",\n");
+        sb.append("  \"forkPolicy\": \"").append(forkPolicy != null ? forkPolicy : "<null>").append("\",\n");
+        sb.append("  \"project\": ").append(project != null ? project.toString() : "<null>").append(",\n");
+        sb.append("  \"mainbranch\": \"").append(mainbranch != null ? mainbranch : "<null>").append("\"\n");
+        sb.append("}");
+        return sb.toString();
     }
+
+
 
 }

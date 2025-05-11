@@ -18,9 +18,8 @@ class RepositoriesServiceTest {
 
     @Test
     void getAllRepositories() {
-        List<Repositories> repositories = repositoriesService.getAllRepositories("gentlero", "bitbucket-api", 5);
+        Repositories repositories = repositoriesService.getRepository("gentlero", "bitbucket-api");
         assertNotNull(repositories);
-        assertFalse(repositories.isEmpty(), "The list of repositories should not be empty");
         System.out.println(repositories);
     }
   

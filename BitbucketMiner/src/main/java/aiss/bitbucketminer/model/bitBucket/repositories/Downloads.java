@@ -37,7 +37,7 @@ public class Downloads {
         this.name = name;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Downloads.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -55,6 +55,14 @@ public class Downloads {
             sb.append(']');
         }
         return sb.toString();
+    }*/
+    @Override
+    public String toString() {
+        return "Downloads{" +
+                "href=" + (href != null ? href : "null") +
+                ", name=" + (name != null ? name : "null") +
+                '}';
     }
+
 
 }

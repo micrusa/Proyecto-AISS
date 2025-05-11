@@ -24,7 +24,7 @@ public class Owner {
         this.type = type;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Owner.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
@@ -38,6 +38,13 @@ public class Owner {
             sb.append(']');
         }
         return sb.toString();
+    }*/
+    @Override
+    public String toString() {
+        return "Owner{" +
+                "type=" + (type != null ? type : "null") +
+                '}';
     }
+
 
 }
