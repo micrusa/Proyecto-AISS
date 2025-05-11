@@ -3,7 +3,6 @@ package aiss.bitbucketminer.model.bitBucket.issue;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
@@ -20,9 +19,9 @@ public class Issue {
     @JsonProperty("title")
     private String title;
     @JsonProperty("reporter")
-    private Reporter reporter;
+    private User reporter;
     @JsonProperty("assignee")
-    private Assignee assignee;
+    private User assignee;
     @JsonProperty("created_on")
     private String createdOn;
     @JsonProperty("updated_on")
@@ -97,22 +96,22 @@ public class Issue {
     }
 
     @JsonProperty("reporter")
-    public Reporter getReporter() {
+    public User getReporter() {
         return reporter;
     }
 
     @JsonProperty("reporter")
-    public void setReporter(Reporter reporter) {
+    public void setReporter(User reporter) {
         this.reporter = reporter;
     }
 
     @JsonProperty("assignee")
-    public Assignee getAssignee() {
+    public User getAssignee() {
         return assignee;
     }
 
     @JsonProperty("assignee")
-    public void setAssignee(Assignee assignee) {
+    public void setAssignee(User assignee) {
         this.assignee = assignee;
     }
 

@@ -3,11 +3,10 @@ package aiss.bitbucketminer.model.bitBucket.issue;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
-public class Html {
+public class HtmlLink {
 
     @JsonProperty("href")
     private String href;

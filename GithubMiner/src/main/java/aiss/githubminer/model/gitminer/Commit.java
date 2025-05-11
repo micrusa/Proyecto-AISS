@@ -3,6 +3,8 @@ package aiss.githubminer.model.gitminer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 public class Commit {
 
     @JsonProperty("id")
@@ -22,6 +24,8 @@ public class Commit {
     private String committerName;
     @JsonProperty("committer_email")
     private String committerEmail;
+    @JsonProperty("labels")
+    private List<String> labels;
 
     @JsonProperty("committed_date")
     private String committedDate;
@@ -145,6 +149,10 @@ public class Commit {
         sb.append('=');
         sb.append(((this.committerEmail == null) ? "<null>" : this.committerEmail));
         sb.append(',');
+        sb.append("labels");
+        sb.append('=');
+        sb.append(((this.labels == null) ? "<null>" : this.labels));
+        sb.append(',');
         sb.append("committedDate");
         sb.append('=');
         sb.append(((this.committedDate == null) ? "<null>" : this.committedDate));
@@ -159,5 +167,13 @@ public class Commit {
             sb.append(']');
         }
         return sb.toString();
+    }
+
+    public List<String> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
     }
 }

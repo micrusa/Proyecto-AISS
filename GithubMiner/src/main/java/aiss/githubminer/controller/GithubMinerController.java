@@ -118,7 +118,7 @@ public class GithubMinerController {
             List<Comment> comments = commentService.getComments(owner, repoName, issue.getNumber());
 
             aiss.githubminer.model.gitminer.Issue gitMinerIssue = transformer.transformIssue(issue);
-            gitMinerIssue.setComments(comments.stream().map(transformer::transformComment).toList());
+            gitMinerIssue.setComments(comments.stream().map(c -> transformer.transformComment(c, issue.getHtmlUrl())).toList());
 
             gitMinerIssues.add(gitMinerIssue);
         }

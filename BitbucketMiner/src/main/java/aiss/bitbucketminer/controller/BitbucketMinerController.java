@@ -17,10 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Tag(name = "BitbucketMiner", description = "BitbucketMiner API")
@@ -111,7 +108,7 @@ public class BitbucketMinerController {
             List<Comment> comments = commentService.getComments(workspace, repoSlug, String.valueOf(issue.getId()), 1);
 
             List<aiss.bitbucketminer.model.gitMiner.Comment> gitMinerComments = comments.stream()
-                    .map(transformer::transformComment).toList();
+                    .map(transformer::transformComment).filter(Objects::nonNull).toList();
             gitMinerIssue.setComments(gitMinerComments);
             gitMinerIssues.add(gitMinerIssue);
         }

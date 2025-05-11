@@ -20,14 +20,9 @@ public class Transformer {
     public Project transformProject(aiss.githubminer.model.github.project.Project externalModel) {
         Project project = new Project();
 
-        String id = String.valueOf(externalModel.getId());
-        project.setId(id);
-
-        String name = externalModel.getName();
-        project.setName(name);
-
-        String webUrl = externalModel.getUrl();
-        project.setWebUrl(webUrl);
+        project.setId(String.valueOf(externalModel.getId()));
+        project.setName(externalModel.getName());
+        project.setWebUrl(externalModel.getUrl());
 
         return project;
     }
@@ -35,58 +30,34 @@ public class Transformer {
     public Commit transformCommit(aiss.githubminer.model.github.commit.Commit externalModel) {
         Commit commit = new Commit();
 
-        String id = String.valueOf(externalModel.getSha());
-        commit.setId(id);
-
-        String title = externalModel.getCommit().getMessage().split("\n")[0];
-        commit.setTitle(title);
-
-        String message = externalModel.getCommit().getMessage();
-        commit.setMessage(message);
-
-        String authorName = externalModel.getAuthor().getLogin();
-        commit.setAuthorName(authorName);
-
-        String authorEmail = externalModel.getAuthor().getEmail();
-        commit.setAuthorEmail(authorEmail);
-
-        String authoredDate = externalModel.getCommit().getAuthor().getDate();
-        commit.setAuthoredDate(authoredDate);
-
-        String committerName = externalModel.getCommitter().getName();
-        commit.setCommitterName(committerName);
-
-        String committerEmail = externalModel.getCommitter().getEmail();
-        commit.setCommitterEmail(committerEmail);
-
+        commit.setId(String.valueOf(externalModel.getSha()));
+        commit.setTitle(externalModel.getCommit().getMessage().split("\n")[0]);
+        commit.setMessage(externalModel.getCommit().getMessage());
+        commit.setAuthorName(externalModel.getAuthor().getLogin());
+        commit.setAuthorEmail(externalModel.getAuthor().getEmail());
+        commit.setAuthoredDate(externalModel.getCommit().getAuthor().getDate());
+        commit.setCommitterName(externalModel.getCommitter().getName());
+        commit.setCommitterEmail(externalModel.getCommitter().getEmail());
         String committedDate = externalModel.getCommitter().getDate();
         commit.setCommittedDate(committedDate);
+        commit.setWebUrl(externalModel.getHtmlUrl());
 
-        if(committerName == null || committerName.isEmpty() || committedDate == null || committedDate.isEmpty())
+        if(commit.getCommitterName() == null || commit.getCommitterName().isEmpty() || committedDate == null || committedDate.isEmpty())
             return null; // Cumplimos las restricciones de GitMiner
-
-        String webUrl = externalModel.getHtmlUrl();
-        commit.setWebUrl(webUrl);
-
+        commit.setWebUrl(externalModel.getHtmlUrl());
         return commit;
     }
 
-    public Comment transformComment(aiss.githubminer.model.github.comment.Comment externalModel) {
+    public Comment transformComment(aiss.githubminer.model.github.comment.Comment externalModel, String issueUrl) {
         Comment comment = new Comment();
 
-        String id = String.valueOf(externalModel.getId());
-        comment.setId(id);
+        comment.setId(String.valueOf(externalModel.getId()));
+        comment.setBody(externalModel.getBody());
+        comment.setCreatedAt(externalModel.getCreatedAt());
+        comment.setUpdatedAt(externalModel.getUpdatedAt());
 
-        String body = externalModel.getBody();
-        comment.setBody(body);
-
-        String createdAt = externalModel.getCreatedAt();
-        comment.setCreatedAt(createdAt);
-
-        String updatedAt = externalModel.getUpdatedAt();
-        comment.setUpdatedAt(updatedAt);
-
-        String issueUrl = externalModel.getIssueUrl();
+        if(issueUrl == null) // Parece que no viene el issue_url nunca, por lo que lo tomamos del issue
+            issueUrl = externalModel.getIssueUrl();
         comment.setIssueUrl(issueUrl);
 
         User user = externalModel.getUser();
@@ -98,26 +69,13 @@ public class Transformer {
     public Issue transformIssue(aiss.githubminer.model.github.issue.Issue externalModel) {
         Issue issue = new Issue();
 
-        String id = String.valueOf(externalModel.getId());
-        issue.setId(id);
-
-        String refId = String.valueOf(externalModel.getNumber());
-        issue.setRefId(refId);
-
-        String title = externalModel.getTitle();
-        issue.setTitle(title);
-
-        String description = externalModel.getBody();
-        issue.setDescription(description);
-
-        String state = externalModel.getState();
-        issue.setState(state);
-
-        String createdAt = externalModel.getCreatedAt();
-        issue.setCreatedAt(createdAt);
-
-        String updatedAt = externalModel.getUpdatedAt();
-        issue.setUpdatedAt(updatedAt);
+        issue.setId(String.valueOf(externalModel.getId()));
+        issue.setRefId(String.valueOf(externalModel.getNumber()));
+        issue.setTitle(externalModel.getTitle());
+        issue.setDescription(externalModel.getBody());
+        issue.setState(externalModel.getState());
+        issue.setCreatedAt(externalModel.getCreatedAt());
+        issue.setUpdatedAt(externalModel.getUpdatedAt());
 
         String closedAt = null;
         if (Objects.equals(externalModel.getState(), "open")) {
@@ -137,14 +95,9 @@ public class Transformer {
         aiss.githubminer.model.github.issue.User user = externalModel.getUser();
         aiss.githubminer.model.gitminer.User author = transformIssueUser(user);
         issue.setAuthor(author);
-
-        Integer upvotes = externalModel.getReactions().getPlusOne();
-        Integer downvotes = externalModel.getReactions().getMinusOne();
-        issue.setUpvotes(upvotes);
-        issue.setDownvotes(downvotes);
-
-        String url = externalModel.getUrl();
-        issue.setWebUrl(url);
+        issue.setUpvotes(externalModel.getReactions().getPlusOne());
+        issue.setDownvotes(externalModel.getReactions().getMinusOne());
+        issue.setWebUrl(externalModel.getUrl());
 
         return issue;
     }
@@ -152,20 +105,11 @@ public class Transformer {
     public aiss.githubminer.model.gitminer.User transformCommentUser(aiss.githubminer.model.github.comment.User externalModel) {
         aiss.githubminer.model.gitminer.User user = new aiss.githubminer.model.gitminer.User();
 
-        String id = String.valueOf(externalModel.getId());
-        user.setId(id);
-
-        String username = externalModel.getLogin();
-        user.setUsername(username);
-
-        String name = externalModel.getLogin();
-        user.setName(name);
-
-        String avatarUrl = externalModel.getAvatarUrl();
-        user.setAvatarUrl(avatarUrl);
-
-        String webUrl = externalModel.getHtmlUrl();
-        user.setWebUrl(webUrl);
+        user.setId(String.valueOf(externalModel.getId()));
+        user.setUsername(externalModel.getLogin());
+        user.setName(externalModel.getLogin());
+        user.setAvatarUrl(externalModel.getAvatarUrl());
+        user.setWebUrl(externalModel.getHtmlUrl());
 
         return user;
     }
@@ -173,20 +117,11 @@ public class Transformer {
     public aiss.githubminer.model.gitminer.User transformIssueUser(aiss.githubminer.model.github.issue.User externalModel) {
         aiss.githubminer.model.gitminer.User user = new aiss.githubminer.model.gitminer.User();
 
-        String id = String.valueOf(externalModel.getId());
-        user.setId(id);
-
-        String username = externalModel.getLogin();
-        user.setUsername(username);
-
-        String name = externalModel.getLogin();
-        user.setName(name);
-
-        String avatarUrl = externalModel.getAvatarUrl();
-        user.setAvatarUrl(avatarUrl);
-
-        String webUrl = externalModel.getHtmlUrl();
-        user.setWebUrl(webUrl);
+        user.setId(String.valueOf(externalModel.getId()));
+        user.setUsername(externalModel.getLogin());
+        user.setName(externalModel.getLogin());
+        user.setAvatarUrl(externalModel.getAvatarUrl());
+        user.setWebUrl(externalModel.getHtmlUrl());
 
         return user;
     }

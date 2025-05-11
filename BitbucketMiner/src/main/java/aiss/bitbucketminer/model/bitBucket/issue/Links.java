@@ -3,7 +3,6 @@ package aiss.bitbucketminer.model.bitBucket.issue;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
@@ -12,7 +11,7 @@ public class Links {
     @JsonProperty("self")
     private Self self;
     @JsonProperty("html")
-    private Html html;
+    private HtmlLink html;
     @JsonProperty("comments")
     private Comments comments;
     @JsonProperty("attachments")
@@ -33,12 +32,12 @@ public class Links {
     }
 
     @JsonProperty("html")
-    public Html getHtml() {
+    public HtmlLink getHtml() {
         return html;
     }
 
     @JsonProperty("html")
-    public void setHtml(Html html) {
+    public void setHtml(HtmlLink html) {
         this.html = html;
     }
 

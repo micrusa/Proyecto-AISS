@@ -7,22 +7,20 @@ import aiss.bitbucketminer.model.gitMiner.*;
 
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class Transformer {
 
 
     public Project transformProject(aiss.bitbucketminer.model.bitBucket.repositories.Repository externalModel) {
-
         Project project = new Project();
 
         project.setId(externalModel.getUuid());
         project.setName(externalModel.getName());
         project.setWebUrl(externalModel.getLinks().getHtml().getHref());
 
-        // Crea y devuelve una nueva instancia de InternalModel
         return project;
     }
 
@@ -70,6 +68,7 @@ public class Transformer {
         comment.setId(id);
 
         String body = externalModel.getContent().getRaw();
+        if(body == null) return null;
         comment.setBody(body);
 
         User user = new User();
@@ -90,35 +89,41 @@ public class Transformer {
         return comment;
     }
 
-    public static Issue toGitMinerIssue(aiss.bitbucketminer.model.bitBucket.issue.Issue bitbucketIssue) {
-        if (bitbucketIssue == null) return null;
+    public Issue transformIssue(aiss.bitbucketminer.model.bitBucket.issue.Issue externalModel) {
+        if (externalModel == null) return null;
 
-        Issue result = new Issue();
+        Issue issue = new Issue();
 
-        // Title y Description (content.raw)
-        result.setTitle(bitbucketIssue.getTitle());
-        result.setDescription(bitbucketIssue.getContent() != null ? bitbucketIssue.getContent().getRaw() : null);
+        issue.setId(externalModel.getId().toString());
+        issue.setTitle(externalModel.getTitle());
+        issue.setDescription(externalModel.getContent() != null ? externalModel.getContent().getRaw() : null);
+        issue.setLabels(List.of());
+        issue.setClosedAt("closed".equalsIgnoreCase(externalModel.getState()) ? externalModel.getUpdatedOn() : null);
+        issue.setState(externalModel.getState());
 
-        // Estado (open/closed/etc.)
-        result.setState(bitbucketIssue.getState());
+        issue.setCreatedAt(externalModel.getCreatedOn());
+        issue.setUpdatedAt(externalModel.getUpdatedOn());
+        issue.setUpvotes(externalModel.getVotes());
+        issue.setWebUrl(externalModel.getLinks().getHtml().getHref());
 
-        // Fechas
-        result.setCreatedAt(bitbucketIssue.getCreatedOn());
-        result.setUpdatedAt(bitbucketIssue.getUpdatedOn());
+        aiss.bitbucketminer.model.bitBucket.issue.User reporter = externalModel.getReporter();
+        aiss.bitbucketminer.model.bitBucket.issue.User assignee = externalModel.getAssignee();
 
-        // Fecha de cierre (solo si el estado es "closed")
-        result.setClosedAt("closed".equalsIgnoreCase(bitbucketIssue.getState()) ? bitbucketIssue.getUpdatedOn() : null);
-
-        // Etiquetas vacías (Bitbucket no proporciona)
-        result.setLabels(new java.util.ArrayList<>());
-
-        // Autor del issue (reporter)
-        aiss.bitbucketminer.model.bitBucket.issue.Reporter reporter = bitbucketIssue.getReporter();
-
-        return result;
+        if(assignee != null) {
+            issue.setAssignee(transformIssueUser(assignee));
         }
 
-    public Issue transformIssue(aiss.bitbucketminer.model.bitBucket.issue.Issue issue) {
-        return null;
+        issue.setAuthor(transformIssueUser(reporter));
+
+        return issue;
+    }
+
+    private User transformIssueUser(aiss.bitbucketminer.model.bitBucket.issue.User externalModel) {
+        User user = new User();
+        user.setId(externalModel.getUuid());
+        user.setName(externalModel.getDisplayName());
+        user.setUsername(externalModel.getDisplayName());
+        user.setAvatarUrl(externalModel.getLinks().getAvatar().getHref());
+        return user;
     }
 }
