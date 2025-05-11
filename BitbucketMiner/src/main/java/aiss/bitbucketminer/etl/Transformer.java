@@ -69,10 +69,9 @@ public class Transformer {
         String id = externalModel.getId().toString();
         comment.setId(id);
 
-        String body = externalModel.getContent().toString();
+        String body = externalModel.getContent().getRaw();
         comment.setBody(body);
 
-        //Hay que fixear el user. TODO (?)
         User user = new User();
         user.setId(externalModel.getUser().getUuid());
         user.setName(externalModel.getUser().getDisplayName());
@@ -91,16 +90,35 @@ public class Transformer {
         return comment;
     }
 
-    public Issue transformIssue(aiss.bitbucketminer.model.bitBucket.issue.Issue externalModel) {
-        Issue issue = new Issue();
+    public static Issue toGitMinerIssue(aiss.bitbucketminer.model.bitBucket.issue.Issue bitbucketIssue) {
+        if (bitbucketIssue == null) return null;
 
-        issue.setId(externalModel.getId().toString());
-        issue.setTitle(externalModel.getTitle());
-        issue.setDescription(externalModel.getContent().getRaw());
-        issue.setState(externalModel.getState());
-        issue.setCreatedAt(externalModel.getCreatedOn());
-        // TODO Rellenar el resto de campos
+        Issue result = new Issue();
 
-        return issue;
+        // Title y Description (content.raw)
+        result.setTitle(bitbucketIssue.getTitle());
+        result.setDescription(bitbucketIssue.getContent() != null ? bitbucketIssue.getContent().getRaw() : null);
+
+        // Estado (open/closed/etc.)
+        result.setState(bitbucketIssue.getState());
+
+        // Fechas
+        result.setCreatedAt(bitbucketIssue.getCreatedOn());
+        result.setUpdatedAt(bitbucketIssue.getUpdatedOn());
+
+        // Fecha de cierre (solo si el estado es "closed")
+        result.setClosedAt("closed".equalsIgnoreCase(bitbucketIssue.getState()) ? bitbucketIssue.getUpdatedOn() : null);
+
+        // Etiquetas vacías (Bitbucket no proporciona)
+        result.setLabels(new java.util.ArrayList<>());
+
+        // Autor del issue (reporter)
+        aiss.bitbucketminer.model.bitBucket.issue.Reporter reporter = bitbucketIssue.getReporter();
+
+        return result;
+        }
+
+    public Issue transformIssue(aiss.bitbucketminer.model.bitBucket.issue.Issue issue) {
+        return null;
     }
 }
