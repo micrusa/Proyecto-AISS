@@ -1,12 +1,15 @@
-/*package aiss.bitbucketminer.model.bitBucket.comment;
+
+package aiss.bitbucketminer.model.bitBucket.comment;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-
-public class Commit {
+@JsonPropertyOrder({
+    "type"
+})
+public class Issue {
 
     @JsonProperty("type")
     private String type;
@@ -21,10 +24,10 @@ public class Commit {
         this.type = type;
     }
 
-    *//*@Override
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(Commit.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append(Issue.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
         sb.append("type");
         sb.append('=');
         sb.append(((this.type == null)?"<null>":this.type));
@@ -35,13 +38,14 @@ public class Commit {
             sb.append(']');
         }
         return sb.toString();
-    }*//*
-
+    }*/
     @Override
     public String toString() {
         return "{\n" +
-                "  \"type\": \"" + (type != null ? type : "null") + "\"\n" +
+                "  \"type\": \"" + (type != null ? type : "<null>") + "\"\n" +
                 "}";
     }
 
-}*/
+
+
+}

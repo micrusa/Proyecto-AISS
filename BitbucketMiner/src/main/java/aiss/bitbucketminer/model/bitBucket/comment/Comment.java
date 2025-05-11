@@ -28,7 +28,7 @@ public class Comment {
     @JsonProperty("links")
     private Links links;
     @JsonProperty("commit")
-    private Commit commit;
+    private Issue issue;
 
     @JsonProperty("type")
     public String getType() {
@@ -121,13 +121,13 @@ public class Comment {
     }
 
     @JsonProperty("commit")
-    public Commit getCommit() {
-        return commit;
+    public Issue getCommit() {
+        return issue;
     }
 
     @JsonProperty("commit")
-    public void setCommit(Commit commit) {
-        this.commit = commit;
+    public void setCommit(Issue commit) {
+        this.issue = commit;
     }
 
     public String toString() {
@@ -141,7 +141,7 @@ public class Comment {
                 "  deleted: " + (deleted != null ? deleted : "null") + ",\n" +
                 "  inline: " + indent(inline != null ? inline.toString() : "null") + ",\n" +
                 "  links: " + indent(links != null ? links.toString() : "null") + ",\n" +
-                "  commit: " + indent(commit != null ? commit.toString() : "null") + "\n" +
+                "  commit: " + indent(issue != null ? issue.toString() : "null") + "\n" +
                 "}";
     }
 
