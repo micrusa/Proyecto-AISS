@@ -14,15 +14,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-@Tag(name = "Transformer", description = "Transform the models from GitHub to the ones used in GitMiner")
 @Component
 public class Transformer {
 
-    @Operation(
-            summary = "Transform Project",
-            description = "Transform aiss.githubminer.model.github.project.Project to aiss.githubminer.model.gitminer.Project",
-            tags = {"projects", "transform"}
-    )
     public Project transformProject(aiss.githubminer.model.github.project.Project externalModel) {
         Project project = new Project();
 
@@ -38,11 +32,6 @@ public class Transformer {
         return project;
     }
 
-    @Operation(
-            summary = "Transform Commit",
-            description = "Transform aiss.githubminer.model.github.commit.Commit to aiss.githubminer.model.gitminer.Commit",
-            tags = {"commits", "transform"}
-    )
     public Commit transformCommit(aiss.githubminer.model.github.commit.Commit externalModel) {
         Commit commit = new Commit();
 
@@ -79,11 +68,6 @@ public class Transformer {
         return commit;
     }
 
-    @Operation(
-            summary = "Transform Comment",
-            description = "Transform aiss.githubminer.model.github.comment.Comment to aiss.githubminer.model.gitminer.Comment",
-            tags = {"comments", "transform"}
-    )
     public Comment transformComment(aiss.githubminer.model.github.comment.Comment externalModel) {
         Comment comment = new Comment();
 
@@ -108,11 +92,6 @@ public class Transformer {
         return comment;
     }
 
-    @Operation(
-            summary = "Transform Issue",
-            description = "Transform aiss.githubminer.model.github.issue.Issue to aiss.githubminer.model.gitminer.Issue",
-            tags = {"issues", "transform"}
-    )
     public Issue transformIssue(aiss.githubminer.model.github.issue.Issue externalModel) {
         Issue issue = new Issue();
 
@@ -167,11 +146,6 @@ public class Transformer {
         return issue;
     }
 
-    @Operation(
-            summary = "Transform Issue User",
-            description = "Transform aiss.githubminer.model.github.issue.User to aiss.githubminer.model.gitminer.User",
-            tags = {"users", "transform"}
-    )
     public aiss.githubminer.model.gitminer.User transformCommentUser(aiss.githubminer.model.github.comment.User externalModel) {
         aiss.githubminer.model.gitminer.User user = new aiss.githubminer.model.gitminer.User();
 
@@ -193,11 +167,6 @@ public class Transformer {
         return user;
     }
 
-    @Operation(
-            summary = "Transform Comment User",
-            description = "Transform aiss.githubminer.model.github.comment.User to aiss.githubminer.model.gitminer.User",
-            tags = {"users", "transform"}
-    )
     public aiss.githubminer.model.gitminer.User transformIssueUser(aiss.githubminer.model.github.issue.User externalModel) {
         aiss.githubminer.model.gitminer.User user = new aiss.githubminer.model.gitminer.User();
 
